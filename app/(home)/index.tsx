@@ -1,8 +1,9 @@
-import { View, Text, Alert, ScrollView, Pressable } from 'react-native';
+import { View, Text, Alert, ScrollView, Pressable, TextInput } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import * as Location from 'expo-location';
 import * as LocationGeocoding from 'expo-location';
 import EvilIcons from '@expo/vector-icons/EvilIcons';
+import Fontisto from '@expo/vector-icons/Fontisto';
 
 export default function Index() {
     const [locationEnable, setLocationEnable] = useState(false);
@@ -68,6 +69,10 @@ export default function Index() {
                 <Pressable style={{backgroundColor:"#6CB4EE", width:40, height:40, borderRadius:20, justifyContent:"center",alignItems:"center"}}>
                     <Text>S</Text>
                 </Pressable>
+            </View>
+            <View style={{flexDirection:"row",alignItems:"center", justifyContent:"space-between",borderWidth:1, borderColor:"#C0C0C0",paddingVertical:8,paddingHorizontal:10, borderRadius:11, marginTop:10, marginHorizontal:10}}>
+                <TextInput placeholder='Search for Food, Hotel'/>
+                <Fontisto name="search" size={24} color="#E52B50" />
             </View>
         </ScrollView>
     );
