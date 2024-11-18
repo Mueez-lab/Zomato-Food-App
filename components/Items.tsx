@@ -43,9 +43,6 @@ export default function Items() {
             </View>
         ))}
     </ScrollView>
-    <View style={{justifyContent:"center", alignItems:"center"}}>
-        <Text style={{fontSize:17, letterSpacing:4, color:'grey'}}>ALL RESTURANTS</Text>
-    </View>
     </>
   )
 }
