@@ -13,6 +13,7 @@ const hotel = () => {
   const params = useLocalSearchParams();
   const router = useRouter();
   const cart = useSelector((state) => state.cart.cart);
+  const [modalVisible, setModalVisible] = useState(false);
   const scrollViewRef = useRef(null);
   const scrollAnim = useRef(new Animated.Value(0)).current;
   const ITEM_HEIGHT = 650;
@@ -200,67 +201,85 @@ const hotel = () => {
         {menu?.map((item, index) => (
           <Pressable
             onPress={() => scrollToCategory(index)}
-            style={{
-              paddingHorizontal: 7,
-              borderRadius: 4,
-              paddingVertical: 5,
-              marginVertical: 10,
-              marginHorizontal: 10,
-              alignItems: "center",
-              justifyContent: "center",
-              borderColor: "#181818",
-              borderWidth: 1,
-            }}
-          >
+            style={{ paddingHorizontal: 7,borderRadius: 4,paddingVertical: 5, marginVertical: 10, marginHorizontal: 10, alignItems: "center", justifyContent: "center", borderColor: "#181818", borderWidth: 1, }}>
             <Text>{item?.name}</Text>
           </Pressable>
         ))}
       </View>
       </ScrollView>
+      <Pressable  onPress={() => setModalVisible(!modalVisible)}
+       style={{ width: 60, height: 60, borderRadius: 30, justifyContent: "center", alignItems: "center", position: "absolute", right: 25,  bottom: cart?.length > 0 ? 70 : 35, backgroundColor: "black",}}>
+          <Ionicons style={{ textAlign: "center" }} name="fast-food" size={24} color="white" />
+          <Text style={{ textAlign: "center", color: "white", fontWeight: "500", fontSize: 11, marginTop: 3, }}>MENU </Text>
+      </Pressable>
+      <Modal isVisible={modalVisible} onBackdropPress={()=>setModalVisible(!setModalVisible)}>
+        <View style={{ height: 190, width: 250, backgroundColor: "black", position: "absolute", bottom: 35, right: 10, borderRadius: 7,}}>
+          {menu?.map((item, index) => (
+            <View style={{padding: 10,flexDirection: "row",alignItems: "center",justifyContent: "space-between",}}>
+              <Text style={{ color: "#D0D0D0", fontWeight: "600", fontSize: 18 }}> {item?.name} </Text>
+              <Text style={{ color: "#D0D0D0", fontWeight: "600", fontSize: 18 }}>{item?.items?.length}</Text>
+            </View>
+          ))}
+          <View style={{ justifyContent: "center", alignItems: "center" }}>
+            <Image style={{ width: 120, height: 70, resizeMode: "contain" }} source={{ uri: "https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_284/Logo_f5xzza", }}/>
+          </View>
+        </View>
+      </Modal>
+
       {cart?.length > 0 && (
-        <Pressable
-          onPress={() =>
-            router.push({
-              pathname: "/cart",
-              params: {
-                name: params.name,
-              },
-            })
-          }
-          style={{
-            backgroundColor: "#fd5c63",
-            paddingHorizontal: 10,
-            paddingVertical: 10,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Text
-            style={{
-              textAlign: "center",
-              color: "white",
-              fontSize: 15,
-              fontWeight: "600",
-            }}
-          >
-            {cart.length} items added
-          </Text>
-          <Text
-            style={{
-              textAlign: "center",
-              color: "white",
-              marginTop: 5,
-              fontWeight: "600",
-            }}
-          >
-            Add items(s) worth 240 to reduce surge fee by Rs 35.
-          </Text>
-        </Pressable>
-      )}
+  <View style={styles.floatingButtonContainer}>
+    <Pressable
+      onPress={() =>
+        router.push({
+          pathname: "/cart",
+          params: {
+            name: params.name,
+          },
+        })
+      }
+      style={styles.floatingButton}
+    >
+      <Text style={styles.floatingButtonText}>
+        {cart.length} items added
+      </Text>
+      <Text style={styles.floatingButtonSubText}>
+        Add items(s) worth 240 to reduce surge fee by Rs 35.
+      </Text>
+    </Pressable>
+  </View>
+)}
     </>
   );
 };
 
 export default hotel;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  floatingButtonContainer: {
+    position: "absolute",
+    bottom: 20,  // Adjust for desired vertical position
+    right: 20,   // Adjust for desired horizontal position
+    width: "80%", // Adjust width as needed
+  },
+  floatingButton: {
+    backgroundColor: "#fd5c63",
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10, // Makes it look like a button
+  },
+  floatingButtonText: {
+    textAlign: "center",
+    color: "white",
+    fontSize: 15,
+    fontWeight: "600",
+  },
+  floatingButtonSubText: {
+    textAlign: "center",
+    color: "white",
+    marginTop: 5,
+    fontWeight: "600",
+  },
+});
+
