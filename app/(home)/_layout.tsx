@@ -9,6 +9,7 @@ export default function _layout() {
       <Stack screenOptions={{headerShown:false}}>
           <Stack.Screen name='./index.tsx'/>
           <Stack.Screen name='./hotel.tsx'/>
+          <Stack.Screen name='./cart.tsx'/>
       </Stack>
     </Provider>
   )
