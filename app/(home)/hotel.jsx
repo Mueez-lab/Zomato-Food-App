@@ -12,6 +12,22 @@ import Modal from "react-native-modal";
 const hotel = () => {
   const params = useLocalSearchParams();
   const router = useRouter();
+  const cart = useSelector((state) => state.cart.cart);
+  const scrollViewRef = useRef(null);
+  const scrollAnim = useRef(new Animated.Value(0)).current;
+  const ITEM_HEIGHT = 650;
+  const scrollToCategory = (index) => {
+    if (scrollViewRef.current) {
+      const yOffset = index * ITEM_HEIGHT;
+      Animated.timing(scrollAnim, {
+        toValue: yOffset,
+        duration: 500,
+        useNativeDriver: true,
+      }).start(() => {
+        scrollViewRef.current.scrollTo({ y: yOffset, animated: true });
+      });
+    }
+  };
   const menu = [
     {
       id: "20",
@@ -148,9 +164,10 @@ const hotel = () => {
       ],
     },
   ];
+
   return (
     <>
-      <ScrollView style={{ backgroundColor: "white" }}>
+      <ScrollView   ref={scrollViewRef} style={{ backgroundColor: "white" }}>
         <View style={{ marginTop: 5, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
           <Ionicons onPress={() => router.back()} style={{ padding: 5 }} name="arrow-back" size={24} color="black" />
           <View style={{ flexDirection: "row", alignItems: "center", paddingHorizontal: 14, gap: 10, }}>
@@ -178,7 +195,68 @@ const hotel = () => {
         {menu?.map((item, index) => (
           <FoodItem key={index} item={item} />
         ))}
+        
+        <View style={{ flexDirection: "row", backgroundColor: "white" }}>
+        {menu?.map((item, index) => (
+          <Pressable
+            onPress={() => scrollToCategory(index)}
+            style={{
+              paddingHorizontal: 7,
+              borderRadius: 4,
+              paddingVertical: 5,
+              marginVertical: 10,
+              marginHorizontal: 10,
+              alignItems: "center",
+              justifyContent: "center",
+              borderColor: "#181818",
+              borderWidth: 1,
+            }}
+          >
+            <Text>{item?.name}</Text>
+          </Pressable>
+        ))}
+      </View>
       </ScrollView>
+      {cart?.length > 0 && (
+        <Pressable
+          onPress={() =>
+            router.push({
+              pathname: "/cart",
+              params: {
+                name: params.name,
+              },
+            })
+          }
+          style={{
+            backgroundColor: "#fd5c63",
+            paddingHorizontal: 10,
+            paddingVertical: 10,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Text
+            style={{
+              textAlign: "center",
+              color: "white",
+              fontSize: 15,
+              fontWeight: "600",
+            }}
+          >
+            {cart.length} items added
+          </Text>
+          <Text
+            style={{
+              textAlign: "center",
+              color: "white",
+              marginTop: 5,
+              fontWeight: "600",
+            }}
+          >
+            Add items(s) worth 240 to reduce surge fee by Rs 35.
+          </Text>
+        </Pressable>
+      )}
     </>
   );
 };
