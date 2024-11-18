@@ -12,6 +12,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
-    "expo-env.d.ts"
-, "components/Crouseljs", "components/Crousel.tsx"  ]
+    "expo-env.d.ts",
+    "components"
+, "app/(home)/hotel.jsx", "app/(home)/cart.jsx"  ]
 }
