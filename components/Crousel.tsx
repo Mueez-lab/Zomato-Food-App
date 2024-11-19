@@ -1,6 +1,16 @@
 import React from 'react';
 import { View, Image, Dimensions, StyleSheet } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
+import {
+  configureReanimatedLogger,
+  ReanimatedLogLevel,
+} from 'react-native-reanimated';
+
+// This is the default configuration
+configureReanimatedLogger({
+  level: ReanimatedLogLevel.warn,
+  strict: false, // Reanimated runs in strict mode by default
+});
 
 // Get screen width dynamically for responsive design
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');

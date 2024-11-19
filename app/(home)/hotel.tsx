@@ -7,17 +7,18 @@ import FoodItem from "@/components/FoodItem";
 import { useSelector } from "react-redux";
 import Modal from "react-native-modal";
 import menu from '../../data/menu.json';
+import { RootState } from "../../store";  // Import RootState for useSelector
 
 const Hotel = () => {
   const params = useLocalSearchParams();
   const router = useRouter();
-  const cart = useSelector((state) => state.cart.cart);
+  const cart = useSelector((state: RootState) => state.cart.cart);  // Type the state
   const [modalVisible, setModalVisible] = useState(false);
-  const scrollViewRef = useRef(null);
+  const scrollViewRef = useRef<ScrollView | null>(null);  // Type the ref
   const scrollAnim = useRef(new Animated.Value(0)).current;
   const ITEM_HEIGHT = 650;
 
-  const scrollToCategory = (index) => {
+  const scrollToCategory = (index: number) => {
     if (scrollViewRef.current) {
       const yOffset = index * ITEM_HEIGHT;
       Animated.timing(scrollAnim, {
@@ -25,10 +26,12 @@ const Hotel = () => {
         duration: 500,
         useNativeDriver: true,
       }).start(() => {
-        scrollViewRef.current.scrollTo({ y: yOffset, animated: true });
+        // Use the non-null assertion operator here
+        scrollViewRef.current!.scrollTo({ y: yOffset, animated: true });
       });
     }
   };
+  
 
   return (
     <>
@@ -69,23 +72,23 @@ const Hotel = () => {
         {/* Category Scroll Buttons */}
         <View style={{ flexDirection: "row", backgroundColor: "white" }}>
           {menu?.map((item) => (
-            <Pressable
-              key={item.id}
-              onPress={() => scrollToCategory(item.id)}
-              style={{
-                paddingHorizontal: 7,
-                borderRadius: 4,
-                paddingVertical: 5,
-                marginVertical: 10,
-                marginHorizontal: 10,
-                alignItems: "center",
-                justifyContent: "center",
-                borderColor: "#181818",
-                borderWidth: 1,
-              }}
-            >
-              <Text>{item.name}</Text>
-            </Pressable>
+           <Pressable
+           key={item.id}
+           onPress={() => scrollToCategory(parseInt(item.id))} // Convert item.id to number
+           style={{
+             paddingHorizontal: 7,
+             borderRadius: 4,
+             paddingVertical: 5,
+             marginVertical: 10,
+             marginHorizontal: 10,
+             alignItems: "center",
+             justifyContent: "center",
+             borderColor: "#181818",
+             borderWidth: 1,
+           }}
+         >
+           <Text>{item.name}</Text>
+         </Pressable>
           ))}
         </View>
       </ScrollView>
@@ -125,7 +128,6 @@ const Hotel = () => {
           </View>
         </View>
       </Modal>
-
       {/* Cart Floating Button */}
       {cart?.length > 0 && (
         <View style={styles.floatingButtonContainer}>
@@ -155,7 +157,6 @@ const Hotel = () => {
 };
 
 export default Hotel;
-
 const styles = StyleSheet.create({
   floatingButtonContainer: {
     position: "absolute",

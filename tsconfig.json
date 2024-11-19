@@ -14,5 +14,5 @@
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
     "components"
-, "app/(home)/hotel.jsx", "app/(home)/cart.jsx", "app/(home)/order.jsx"  ]
+, "app/(home)/hotel.tsx", "app/(home)/cart.tsx", "app/(home)/order.jsx"  ]
 }
