@@ -51,14 +51,13 @@ const Hotel = ({ item }: HotelProps) => {
       }
       style={styles.container}
     >
-      {/* Image */}
+
       <Image
         style={styles.image}
         source={{ uri: item?.featured_image }}
         resizeMode="cover"
       />
 
-      {/* Content */}
       <View style={styles.content}>
         <View style={styles.infoSection}>
           <Text style={styles.name}>{item?.name}</Text>
@@ -66,17 +65,14 @@ const Hotel = ({ item }: HotelProps) => {
           <Text style={styles.time}>{item?.time}</Text>
         </View>
 
-        {/* Rating */}
         <View style={styles.rating}>
           <Text style={styles.ratingText}>{item?.aggregate_rating}</Text>
           <AntDesign name="staro" size={18} color="white" />
         </View>
       </View>
 
-      {/* Divider */}
       <View style={styles.divider} />
 
-      {/* Offer */}
       <View style={styles.offerSection}>
         <FontAwesome5 name="percentage" size={18} color="#1F75FE" />
         <Text style={styles.offerText}>20% off up to Rs 100</Text>

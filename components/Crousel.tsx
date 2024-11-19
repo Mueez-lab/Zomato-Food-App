@@ -1,47 +1,57 @@
 import React from 'react';
 import { View, Image, Dimensions, StyleSheet } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
-import { enableLayoutAnimations } from 'react-native-reanimated';
 
-enableLayoutAnimations(false); // Disables layout warnings
+// Get screen width dynamically for responsive design
+const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
-const { width: screenWidth } = Dimensions.get('window');
-
+// Sample image URLs
 const images: string[] = [
   "https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=800",
-  "https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_508,h_320,c_fill/lhnwo9ezxo7mpkpvtdcy",
+  "https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=800",
 ];
 
 const ImageCarousel = () => {
   return (
-    <View style={{marginVertical:10}}>
-      <Carousel<string> // Specify the type of the data (string array)
+    <View style={styles.carouselContainer}>
+      <Carousel
         width={screenWidth}
-        height={200}
+        height={screenHeight * 0.4} // Dynamic height (40% of screen height)
         data={images}
-        renderItem={({ item }: { item: string }) => ( // Explicitly type `item` as a string
+        renderItem={({ item }: { item: string }) => (
           <View style={styles.imageContainer}>
-            <Image source={{ uri: item }} style={styles.image} resizeMode="cover" />
+            <Image
+              source={{ uri: item }}
+              style={styles.image}
+              resizeMode="cover"
+            />
           </View>
         )}
-        autoPlay // Enables auto-play
-        autoPlayInterval={1000} // Set interval to 1 second (1000 ms)
-        loop // Enables infinite looping
+        autoPlay
+        autoPlayInterval={3000} // Change the interval to 3 seconds
+        loop
       />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  carouselContainer: {
+    marginVertical: 10,
+    backgroundColor: 'white', // Ensures a white background to avoid visual issues
+    borderRadius: 10, // Smooth rounded edges
+    elevation: 5, // Shadow for better visibility on Android
+    overflow: 'hidden', // Keeps the content inside the rounded corners
+  },
   imageContainer: {
-    borderRadius: 10,
-    overflow: 'hidden',
+    flex: 1, // Ensures the image takes up all available space
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   image: {
     width: screenWidth,
-    height: 200,
-    padding:10,
-    borderRadius:10,
+    height: '100%', // Makes the image fill the available height
+    borderRadius: 10, // Matches the rounded corners
   },
 });
 

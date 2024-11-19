@@ -11,6 +11,7 @@ import Items from '@/components/Items';
 import Hotel from '@/components/Hotel';
 
 
+
 interface Image {
     id: string;
     image: string;
@@ -420,8 +421,6 @@ export default function Index() {
             let address = `${country}, ${city},  ${subregion}`;
             setCurrentAddress(address);
         }
-
-        console.log("Current address:", currentAddress);
     };
 
     return (
@@ -440,7 +439,7 @@ export default function Index() {
                 <TextInput placeholder='Search for Food, Hotel' />
                 <Fontisto name="search" size={24} color="#E52B50" />
             </View>
-            <Crousel />
+            <Crousel/>
             <Categories/>
             <Recomended/>
             <Items/>
