@@ -11,7 +11,7 @@ import {StyleSheet,Text,View,SafeAreaView,TouchableOpacity,Pressable,} from "rea
     const router = useRouter();
     const [tip, setTip] = useState(0);
     const time = moment().format("LT");
-    const mapView = useRef(null);
+    const mapView = useRef<MapView>(null);
     const [coordinates] = useState([
       {
         latitude: 12.9716,
@@ -23,15 +23,18 @@ import {StyleSheet,Text,View,SafeAreaView,TouchableOpacity,Pressable,} from "rea
       },
     ]);
     useEffect(() => {
-      mapView.current.fitToCoordinates(coordinates, {
-        edgePadding: {
-          top: 50,
-          bottom: 50,
-          left: 50,
-          right: 50,
-        },
-      });
+      if (mapView.current) {
+        mapView.current.fitToCoordinates(coordinates, {
+          edgePadding: {
+            top: 50,
+            bottom: 50,
+            left: 50,
+            right: 50,
+          },
+        });
+      }
     }, []);
+    
     return (
       <SafeAreaView>
               <View style={{ flexDirection: "row", alignItems: "center", gap: 8, padding: 5 }}>
