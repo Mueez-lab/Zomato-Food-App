@@ -1,19 +1,14 @@
-import {
-    StyleSheet,
-    Text,
-    View,
-    SafeAreaView,
-    TouchableOpacity,
-    Pressable,
-  } from "react-native";
+import {StyleSheet,Text,View,SafeAreaView,TouchableOpacity,Pressable,} from "react-native";
   import React, { useRef, useState, useEffect } from "react";
   import { useLocalSearchParams } from "expo-router";
   import moment from "moment";
   import MapView, { Marker, Polyline } from "react-native-maps";
   import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
+  import { useRouter } from "expo-router";
   
   const order = () => {
     const params = useLocalSearchParams();
+    const router = useRouter();
     const [tip, setTip] = useState(0);
     const time = moment().format("LT");
     const mapView = useRef(null);
@@ -39,6 +34,10 @@ import {
     }, []);
     return (
       <SafeAreaView>
+              <View style={{ flexDirection: "row", alignItems: "center", gap: 8, padding: 5 }}>
+              <Ionicons onPress={() => router.back()} name="arrow-back" size={24} color="black" />
+              <Text style={{ fontSize: 17 }}>{params?.name}</Text>
+              </View>
         <View
           style={{
             flexDirection: "row",
@@ -113,18 +112,6 @@ import {
                     }}
                   >
                     Tip your hunger Saviour
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: "600",
-                      color: "#696969",
-                      marginRight: 10,
-                      paddingHorizontal: 2,
-                    }}
-                  >
-                    Thank your delivery partner for helping you stay safe
-                    indoors.Support them through these tough times with a tip
                   </Text>
                   <Pressable
                     style={{
