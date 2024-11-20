@@ -37,19 +37,19 @@ export default function Recommended() {
         },
         {
             id: 4,
-            name: "Happiness Dhaba",
+            name: "Spice Avenue",
             image:
                 "https://b.zmtcdn.com/data/reviews_photos/2f1/c66cf9c2c68f652db16f2c0a6188a2f1_1659295848.jpg?fit=around%7C200%3A200&crop=200%3A200%3B%2A%2C%2A",
             time: "20 - 25",
-            type: "North Indian",
+            type: "Indian Fusion",
         },
         {
             id: 5,
-            name: "Happiness Dhaba",
+            name: "Urban Eats",
             image:
                 "https://b.zmtcdn.com/data/reviews_photos/2f1/c66cf9c2c68f652db16f2c0a6188a2f1_1659295848.jpg?fit=around%7C200%3A200&crop=200%3A200%3B%2A%2C%2A",
             time: "20 - 25",
-            type: "North Indian",
+            type: "Fusion",
         },
     ];
 
@@ -60,13 +60,13 @@ export default function Recommended() {
             contentContainerStyle={styles.container}
         >
             {recommended.map((item) => (
-                <TouchableOpacity activeOpacity={0.8} key={item.id} style={styles.itemContainer}>
-                    <View style={{flex:1}}>
+                <TouchableOpacity activeOpacity={0.9} key={item.id} style={styles.itemContainer}>
                     <Image source={{ uri: item.image }} style={styles.image} />
-                    </View>
-                    <View style={{flex:1, padding:10, justifyContent:"center", alignItems:"center"}}>
-                    <Text style={styles.name}>{item.name}</Text>
-                    <Text style={styles.details}>{item.time} mins | {item.type}</Text>
+                    <View style={styles.textContainer}>
+                        <Text style={styles.name}>{item.name}</Text>
+                        <Text style={styles.details}>
+                            {item.time} mins | {item.type}
+                        </Text>
                     </View>
                 </TouchableOpacity>
             ))}
@@ -77,30 +77,44 @@ export default function Recommended() {
 const styles = StyleSheet.create({
     container: {
         paddingVertical: 20,
-        paddingHorizontal: 10,
+        paddingHorizontal: 15,
     },
     itemContainer: {
-        flex:1,
-        flexDirection:"row",
-        width: 280,
+        width: 240,
         marginRight: 15,
-        borderRadius:10,
-        backgroundColor:"#fff"
+        borderRadius: 16,
+        backgroundColor: 'brown', // Cool dark theme
+        overflow: 'hidden',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 5,
+        elevation: 6,
+        borderWidth: 1,
+        borderColor: '#334155',
     },
     image: {
         width: '100%',
-        height: 120,
+        height: 140,
         resizeMode: 'cover',
+        borderTopLeftRadius: 16,
+        borderTopRightRadius: 16,
+    },
+    textContainer: {
+        padding: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     name: {
         fontSize: 16,
-        fontWeight: '600',
-        color: '#333',
+        fontWeight: '700',
+        color: '#E2E8F0', // Light text
         textAlign: 'center',
+        marginBottom: 4,
     },
     details: {
         fontSize: 14,
-        color: '#777',
+        color: '#94A3B8', // Subtle grey
         textAlign: 'center',
     },
 });

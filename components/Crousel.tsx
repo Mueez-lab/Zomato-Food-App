@@ -26,7 +26,7 @@ const ImageCarousel = () => {
     <View style={styles.carouselContainer}>
       <Carousel
         width={screenWidth}
-        height={screenHeight * 0.4} // Dynamic height (40% of screen height)
+        height={screenHeight * 0.25} // Dynamic height (40% of screen height)
         data={images}
         renderItem={({ item }: { item: string }) => (
           <View style={styles.imageContainer}>

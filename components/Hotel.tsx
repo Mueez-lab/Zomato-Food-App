@@ -51,31 +51,26 @@ const Hotel = ({ item }: HotelProps) => {
       }
       style={styles.container}
     >
-
       <Image
         style={styles.image}
         source={{ uri: item?.featured_image }}
         resizeMode="cover"
       />
 
-      <View style={styles.content}>
-        <View style={styles.infoSection}>
-          <Text style={styles.name}>{item?.name}</Text>
-          <Text style={styles.cuisines}>{item?.cuisines}</Text>
-          <Text style={styles.time}>{item?.time}</Text>
-        </View>
-
-        <View style={styles.rating}>
-          <Text style={styles.ratingText}>{item?.aggregate_rating}</Text>
-          <AntDesign name="staro" size={18} color="white" />
-        </View>
+      <View style={styles.details}>
+        <Text style={styles.name}>{item?.name}</Text>
+        <Text style={styles.cuisines}>{item?.cuisines}</Text>
+        <Text style={styles.time}>{item?.time}</Text>
       </View>
 
-      <View style={styles.divider} />
+      <View style={styles.ratingContainer}>
+        <AntDesign name="star" size={14} color="#FFFFFF" />
+        <Text style={styles.ratingText}>{item?.aggregate_rating}</Text>
+      </View>
 
-      <View style={styles.offerSection}>
-        <FontAwesome5 name="percentage" size={18} color="#1F75FE" />
-        <Text style={styles.offerText}>20% off up to Rs 100</Text>
+      <View style={styles.offerBanner}>
+        <FontAwesome5 name="percentage" size={18} color="#1E90FF" />
+        <Text style={styles.offerText}>{item?.offer}</Text>
       </View>
     </Pressable>
   );
@@ -83,74 +78,75 @@ const Hotel = ({ item }: HotelProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 10,
     marginVertical: 12,
-    borderRadius: 16,
+    marginHorizontal: 16,
+    borderRadius: 20,
     backgroundColor: '#FFFFFF',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 3,
+    shadowRadius: 8,
+    elevation: 5,
     overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: '#EFEFEF',
   },
   image: {
     width: '100%',
-    aspectRatio: 16 / 9,
+    height: 200,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
   },
-  content: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 12,
-  },
-  infoSection: {
-    flex: 1,
+  details: {
+    padding: 16,
+    borderBottomWidth: 1,
+    borderColor: '#F4F4F4',
   },
   name: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#333333',
     marginBottom: 4,
   },
   cuisines: {
     fontSize: 14,
-    color: '#666',
+    color: '#7D7D7D',
     marginBottom: 4,
   },
   time: {
     fontSize: 12,
-    color: '#888',
+    color: '#AAAAAA',
   },
-  rating: {
+  ratingContainer: {
+    position: 'absolute',
+    top: 16,
+    right: 16,
+    backgroundColor: '#FF8C00',
+    borderRadius: 12,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#006A4E',
-    borderRadius: 6,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
   },
   ratingText: {
-    color: 'white',
-    marginRight: 4,
-    fontSize: 14,
+    color: '#FFFFFF',
     fontWeight: '600',
+    fontSize: 14,
+    marginLeft: 6,
   },
-  divider: {
-    height: 1,
-    backgroundColor: '#E0E0E0',
-    marginHorizontal: 12,
-  },
-  offerSection: {
+  offerBanner: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 12,
+    padding: 16,
+    backgroundColor: '#F0F8FF',
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
   },
   offerText: {
-    marginLeft: 8,
-    color: '#1F75FE',
-    fontWeight: '500',
-    fontSize: 14,
+    marginLeft: 10,
+    color: '#1E90FF',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
 
