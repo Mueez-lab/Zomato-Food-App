@@ -47,8 +47,8 @@ const ImageCarousel = () => {
 
 const styles = StyleSheet.create({
   carouselContainer: {
-    marginVertical: 10,
-    backgroundColor: 'white', // Ensures a white background to avoid visual issues
+    marginVertical: 17,
+    backgroundColor: '#1e1e2e ', // Ensures a white background to avoid visual issues
     borderRadius: 10, // Smooth rounded edges
     elevation: 5, // Shadow for better visibility on Android
     overflow: 'hidden', // Keeps the content inside the rounded corners
@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: {
+    paddingHorizontal:10,
     width: screenWidth,
     height: '100%', // Makes the image fill the available height
     borderRadius: 10, // Matches the rounded corners

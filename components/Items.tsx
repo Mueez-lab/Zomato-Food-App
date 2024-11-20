@@ -58,13 +58,13 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 24,
     letterSpacing: 2,
-    color: '#333', // Darker for a modern look
+    color: '#FF8C00', // Darker for a modern look
     fontWeight: '700',
     textTransform: 'uppercase',
   },
   subHeaderText: {
     fontSize: 14,
-    color: '#6B7280', // Subtle grey
+    color: 'cyan', // Subtle grey
     marginTop: 5,
     textAlign: 'center',
   },

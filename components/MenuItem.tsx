@@ -49,10 +49,10 @@ const MenuItem: React.FC<MenuItemProps> = ({ item }) => {
     <View>
       <Pressable style={{ margin: 10, flexDirection: "row", justifyContent: "space-between", marginVertical: 15 }}>
         <View>
-          <Text style={{ fontSize: 18, fontWeight: "600", width: 220 }}>
+          <Text style={{ fontSize: 18, fontWeight: "600", width: 220 , color:"#fff"}}>
             {item?.name}
           </Text>
-          <Text style={{ marginTop: 4, fontSize: 15, fontWeight: "500" }}>
+          <Text style={{ marginTop: 4, fontSize: 15, fontWeight: "500", color:'#fff' }}>
             ₹{item?.price}
           </Text>
           <Text style={{ marginTop: 5, borderRadius: 4 }}>

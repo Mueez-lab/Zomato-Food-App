@@ -1,249 +1,222 @@
-import {StyleSheet,Text,View,SafeAreaView,TouchableOpacity,Pressable,} from "react-native";
-  import React, { useRef, useState, useEffect } from "react";
-  import { useLocalSearchParams } from "expo-router";
-  import moment from "moment";
-  import MapView, { Marker, Polyline } from "react-native-maps";
-  import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
-  import { useRouter } from "expo-router";
-  
-  const order = () => {
-    const params = useLocalSearchParams();
-    const router = useRouter();
-    const [tip, setTip] = useState(0);
-    const time = moment().format("LT");
-    const mapView = useRef<MapView>(null);
-    const [coordinates] = useState([
-      {
-        latitude: 12.9716,
-        longitude: 77.5946,
-      },
-      {
-        latitude: 13.0451,
-        longitude: 77.6269,
-      },
-    ]);
-    useEffect(() => {
-      if (mapView.current) {
-        mapView.current.fitToCoordinates(coordinates, {
-          edgePadding: {
-            top: 50,
-            bottom: 50,
-            left: 50,
-            right: 50,
-          },
-        });
-      }
-    }, []);
-    
-    return (
-      <SafeAreaView>
-              <View style={{ flexDirection: "row", alignItems: "center", gap: 8, padding: 5 }}>
-              <Ionicons onPress={() => router.back()} name="arrow-back" size={24} color="black" />
-              <Text style={{ fontSize: 17 }}>{params?.name}</Text>
-              </View>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            height: 60,
-            backgroundColor: "#fd5c63",
-            padding: 10,
-          }}
-        >
-          <View>
-            <Text style={{ color: "white", fontSize: 15, fontWeight: "600" }}>
-              Delivery in 25 mins
-            </Text>
-            <Text style={{ color: "white", fontSize: 15, fontWeight: "600" }}>
-              order placed at {time}
-            </Text>
-          </View>
-          <Text style={{ color: "white", fontSize: 15, fontWeight: "600" }}>
-            HELP
-          </Text>
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Pressable } from "react-native";
+import React, { useRef, useState, useEffect } from "react";
+import { useLocalSearchParams } from "expo-router";
+import moment from "moment";
+import MapView, { Marker, Polyline } from "react-native-maps";
+import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+
+const order = () => {
+  const params = useLocalSearchParams();
+  const router = useRouter();
+  const [tip, setTip] = useState(0);
+  const time = moment().format("LT");
+  const mapView = useRef<MapView>(null);
+  const [coordinates] = useState([
+    { latitude: 12.9716, longitude: 77.5946 },
+    { latitude: 13.0451, longitude: 77.6269 },
+  ]);
+
+  useEffect(() => {
+    if (mapView.current) {
+      mapView.current.fitToCoordinates(coordinates, {
+        edgePadding: { top: 50, bottom: 50, left: 50, right: 50 },
+      });
+    }
+  }, []);
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Ionicons
+          onPress={() => router.back()}
+          name="arrow-back"
+          size={24}
+          color="black"
+          style={styles.backIcon}
+        />
+        <Text style={styles.headerTitle}>{params?.name}</Text>
+      </View>
+      <View style={styles.deliveryInfo}>
+        <View>
+          <Text style={styles.deliveryText}>Delivery in 25 mins</Text>
+          <Text style={styles.deliveryText}>Order placed at {time}</Text>
         </View>
-        <MapView
-          ref={mapView}
-          initialRegion={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-          style={{ width: "100%", height: 400 }}
-        >
-          <Marker coordinate={coordinates[0]} />
-          <Marker coordinate={coordinates[1]} />
-  
-          <Polyline
-            coordinates={coordinates}
-            strokeColor="black"
-            lineDashPattern={[4]}
-            strokeWidth={1}
-          />
-        </MapView>
-        <View
-          style={{
-            height: 320,
-            width: "100%",
-            backgroundColor: "white",
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20,
-          }}
-        >
-          <View style={{ padding: 10 }}>
-            <View>
-              <Text
-                style={{ fontWeight: "500", fontSize: 17, textAlign: "center" }}
-              >
-                {params?.name} has accepted your order
-              </Text>
-              <View style={{ flexDirection: "row", marginTop: 20 }}>
-                <FontAwesome5
-                  name="hand-holding-heart"
-                  size={28}
-                  color="#fc8019"
-                />
-                <View style={{ marginLeft: 10 }}>
-                  <Text
-                    style={{
-                      fontSize: 18,
-                      fontWeight: "500",
-                      paddingHorizontal: 2,
-                      marginBottom: 6,
-                    }}
-                  >
-                    Tip your hunger Saviour
-                  </Text>
-                  <Pressable
-                    style={{
-                      paddingTop: 20,
-                      flexDirection: "row",
-                      alignItems: "center",
-                    }}
-                  >
-                    <TouchableOpacity
-                      activeOpacity={0.6}
-                      onPress={() => setTip(30)}
-                      style={{
-                        backgroundColor: "#F5F5F5",
-                        marginHorizontal: 10,
-                        paddingHorizontal: 10,
-                        borderRadius: 7,
-                      }}
-                    >
-                      <Text
-                        style={{
-                          padding: 10,
-                          color: "#002D62",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        ₹30
-                      </Text>
-                    </TouchableOpacity>
-  
-                    <TouchableOpacity
-                      activeOpacity={0.6}
-                      onPress={() => setTip(50)}
-                      style={{
-                        alignItems: "center",
-                        backgroundColor: "#F5F5F5",
-                        marginHorizontal: 10,
-                        borderRadius: 7,
-                        // paddingHorizontal: 10,
-                      }}
-                    >
-                      <Text
-                        style={{
-                          padding: 4,
-                          color: "#002D62",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        ₹50
-                      </Text>
-                      <Text
-                        style={{
-                          backgroundColor: "orange",
-                          paddingHorizontal: 10,
-                          fontSize: 14,
-                          fontWeight: "bold",
-                          color: "white",
-                        }}
-                      >
-                        Most Tipped
-                      </Text>
-                    </TouchableOpacity>
-  
-                    <TouchableOpacity
-                      activeOpacity={0.6}
-                      onPress={() => setTip(70)}
-                      style={{
-                        backgroundColor: "#F5F5F5",
-                        marginHorizontal: 10,
-                        paddingHorizontal: 10,
-                        borderRadius: 7,
-                      }}
-                    >
-                      <Text
-                        style={{
-                          padding: 10,
-                          color: "#002D62",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        ₹70
-                      </Text>
-                    </TouchableOpacity>
-                  </Pressable>
-                </View>
-              </View>
-              {tip ? (
-                <View>
-                  <Text
-                    style={{
-                      color: "#fc8019",
-                      padding: 10,
-                      marginLeft: 10,
-                      marginRight: 10,
-                      fontSize: 16,
-                      fontWeight: "600",
-                    }}
-                  >
-                    please pay {"₹"}
-                    {tip} to your delivery agent at the time of delivery
-                  </Text>
-                  <TouchableOpacity
-                    onPress={() => setTip(0)}
-                    activeOpacity={0.7}
-                    style={{
-                      padding: 10,
-                      marginLeft: 10,
-                      marginRight: 10,
-                      position: "absolute",
-                      top: 40,
-  
-                      paddingBottom: 40,
-                    }}
-                  >
-                    <Text
-                      style={{ color: "red", fontSize: 14, fontWeight: "700" }}
-                    >
-                      (Cancel)
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              ) : null}
+        <Text style={styles.helpText}>HELP</Text>
+      </View>
+      <MapView
+  ref={mapView}
+  initialRegion={{
+    latitude: 37.78825,
+    longitude: -122.4324,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  }}
+  style={styles.map}
+>
+  <Marker coordinate={coordinates[0]} />
+  <Marker coordinate={coordinates[1]} />
+  <Polyline coordinates={coordinates} strokeColor="black" lineDashPattern={[4]} strokeWidth={1} />
+</MapView>
+
+      <View style={styles.bottomSheet}>
+        <Text style={styles.orderStatus}>{params?.name} has accepted your order</Text>
+        <View style={styles.tipSection}>
+          <FontAwesome5 name="hand-holding-heart" size={28} color="#fc8019" />
+          <View style={styles.tipContainer}>
+            <Text style={styles.tipPrompt}>Tip your hunger Saviour</Text>
+            <View style={styles.tipButtons}>
+              {[30, 50, 70].map((amount, index) => (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => setTip(amount)}
+                  style={[
+                    styles.tipButton,
+                    amount === 50 && styles.mostTippedButton,
+                  ]}
+                >
+                  <Text style={styles.tipButtonText}>₹{amount}</Text>
+                  {amount === 50 && <Text style={styles.mostTippedText}>Most Tipped</Text>}
+                </TouchableOpacity>
+              ))}
             </View>
           </View>
         </View>
-      </SafeAreaView>
-    );
-  };
-  
-  export default order;
-  
-  const styles = StyleSheet.create({});
-  
+        {tip > 0 && (
+          <View style={styles.tipConfirmation}>
+            <Text style={styles.tipMessage}>
+              Please pay ₹{tip} to your delivery agent at the time of delivery.
+            </Text>
+            <TouchableOpacity onPress={() => setTip(0)} style={styles.cancelTipButton}>
+              <Text style={styles.cancelTipText}>(Cancel)</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
+    </SafeAreaView>
+  );
+};
+
+export default order;
+
+const styles = StyleSheet.create({
+  container: { 
+    flex: 1, 
+    backgroundColor: "#1e1e2e" 
+  },
+  header: { 
+    flexDirection: "row", 
+    alignItems: "center", 
+    padding: 16 
+  },
+  backIcon: { 
+    marginRight: 8, 
+    color: "#FFFFFF" 
+  },
+  headerTitle: { 
+    fontSize: 18, 
+    fontWeight: "600", 
+    color: "#FFFFFF" 
+  },
+  deliveryInfo: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#fd5c63",
+    padding: 16,
+    borderRadius: 8,
+    margin: 8,
+  },
+  deliveryText: { 
+    color: "#FFFFFF", 
+    fontSize: 15, 
+    fontWeight: "600" 
+  },
+  helpText: { 
+    color: "#FFFFFF", 
+    fontSize: 15, 
+    fontWeight: "600" 
+  },
+  map: { 
+    width: "100%", 
+    height: 400, 
+    borderRadius: 12, 
+    overflow: "hidden", 
+    marginVertical: 8 
+  },
+  bottomSheet: {
+    backgroundColor: "#2e2e3e",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    padding: 16,
+    shadowColor: "#000",
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    elevation: 5,
+  },
+  orderStatus: { 
+    fontSize: 17, 
+    fontWeight: "500", 
+    textAlign: "center", 
+    color: "#FFFFFF", 
+    marginVertical: 8 
+  },
+  tipSection: { 
+    flexDirection: "row", 
+    alignItems: "center", 
+    marginTop: 16 
+  },
+  tipContainer: { 
+    marginLeft: 12 
+  },
+  tipPrompt: { 
+    fontSize: 18, 
+    fontWeight: "500", 
+    color: "#FFFFFF" 
+  },
+  tipButtons: { 
+    flexDirection: "row", 
+    marginTop: 12 
+  },
+  tipButton: {
+    backgroundColor: "#3e3e4e",
+    borderRadius: 8,
+    marginHorizontal: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    alignItems: "center",
+  },
+  tipButtonText: { 
+    color: "#00d4ff", 
+    fontWeight: "600" 
+  },
+  mostTippedButton: { 
+    backgroundColor: "#44334f", 
+    borderColor: "#fd5c63", 
+    borderWidth: 1 
+  },
+  mostTippedText: { 
+    color: "#fd5c63", 
+    fontSize: 12, 
+    marginTop: 4 
+  },
+  tipConfirmation: { 
+    marginTop: 16, 
+    padding: 16, 
+    backgroundColor: "#3a3a4a", 
+    borderRadius: 8 
+  },
+  tipMessage: { 
+    color: "#fd5c63", 
+    fontWeight: "600", 
+    fontSize: 14 
+  },
+  cancelTipButton: { 
+    marginTop: 8 
+  },
+  cancelTipText: { 
+    color: "#FF6E6E", 
+    fontSize: 14, 
+    fontWeight: "700" 
+  },
+});

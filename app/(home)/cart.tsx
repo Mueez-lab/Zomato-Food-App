@@ -1,14 +1,11 @@
-// Cart.tsx
-
 import React, { useState } from "react";
 import { StyleSheet, Text, View, ScrollView, Pressable } from "react-native";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
 import { cleanCart, decrementQuantity, incrementQuantity } from "../../redux/CartReducer";
-import { RootState } from "../../store";  // Import RootState from the store configuration
+import { RootState } from "../../store";
 
-// Define types for Cart Item and Instruction
 interface CartItem {
   id: string;
   name: string;
@@ -25,9 +22,9 @@ interface Instruction {
 export default function Cart() {
   const params = useLocalSearchParams();
   const router = useRouter();
-  const cart = useSelector((state: RootState) => state.cart.cart); // Use RootState for state typing
+  const cart = useSelector((state: RootState) => state.cart.cart);
   const dispatch = useDispatch();
-  const [selectedInstructions, setSelectedInstructions] = useState<string[]>([]); // Store selected instructions as an array of strings
+  const [selectedInstructions, setSelectedInstructions] = useState<string[]>([]);
 
   const instructions: Instruction[] = [
     { id: "0", name: "Avoid Ringing", iconName: "bell" },
@@ -36,188 +33,259 @@ export default function Cart() {
     { id: "3", name: "Avoid Calling", iconName: "phone-alt" },
   ];
 
-  // Calculate total price of cart items
   const total = cart
-    ?.map((item: { quantity: number; price: number; }) => item.quantity * item.price)
-    .reduce((curr: any, prev: any) => curr + prev, 0);
+    ?.map((item) => item.quantity * item.price)
+    .reduce((curr, prev) => curr + prev, 0);
 
   const toggleInstruction = (id: string) => {
-    if (selectedInstructions.includes(id)) {
-      setSelectedInstructions(selectedInstructions.filter((itemId) => itemId !== id));
-    } else {
-      setSelectedInstructions([...selectedInstructions, id]);
-    }
+    setSelectedInstructions((prev) =>
+      prev.includes(id) ? prev.filter((itemId) => itemId !== id) : [...prev, id]
+    );
   };
 
   return (
     <>
-      <ScrollView style={{ paddingTop: 20 }}>
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 8, padding: 5 }}>
-          <Ionicons onPress={() => router.back()} name="arrow-back" size={24} color="black" />
-          <Text style={{ fontSize: 17 }}>{params?.name}</Text>
+      <ScrollView style={styles.container}>
+        <View style={styles.header}>
+          <Ionicons onPress={() => router.back()} name="arrow-back" size={24} color="white" />
+          <Text style={styles.headerText}>{params?.name}</Text>
         </View>
 
-        <View style={{ backgroundColor: "white", padding: 8, marginTop: 15, borderRadius: 8 }}>
-          <Text>Delivery in <Text style={{ fontWeight: "500" }}>35 - 40 mins</Text></Text>
-        </View>
-
-        <View style={{ marginVertical: 12 }}>
-          <Text style={{ textAlign: "center", letterSpacing: 3, fontSize: 15, color: "gray" }}>
-            ITEM(S) ADDED
+        <View style={styles.deliveryInfo}>
+          <Text style={styles.deliveryText}>
+            Delivery in <Text style={styles.deliveryHighlight}>35 - 40 mins</Text>
           </Text>
         </View>
 
-        <View>
-          {cart?.map((item: CartItem, index: number) => (
-            <Pressable style={{ backgroundColor: "white", padding: 10 }} key={index}>
-              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginVertical: 6 }}>
-                <Text style={{ width: 200, fontSize: 16, fontWeight: "600" }}>{item?.name}</Text>
-                <Pressable style={{ flexDirection: "row", paddingHorizontal: 10, paddingVertical: 5, alignItems: "center", borderColor: "#BEBEBE", borderWidth: 0.5, borderRadius: 10 }}>
-                  <Pressable onPress={() => { dispatch(decrementQuantity(item)); }}>
-                    <Text style={{ fontSize: 20, color: "green", paddingHorizontal: 6, fontWeight: "600" }}>-</Text>
-                  </Pressable>
-                  <Pressable>
-                    <Text style={{ fontSize: 19, color: "green", paddingHorizontal: 8, fontWeight: "600" }}>
-                      {item.quantity}
-                    </Text>
-                  </Pressable>
-                  <Pressable onPress={() => { dispatch(incrementQuantity(item)); }}>
-                    <Text style={{ fontSize: 20, color: "green", paddingHorizontal: 6, fontWeight: "600" }}>+</Text>
-                  </Pressable>
-                </Pressable>
-              </View>
-              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-                <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-                  ₹{item.price * item.quantity}
-                </Text>
-                <Text style={{ fontSize: 15, fontWeight: "500" }}>
-                  Quantity: {item?.quantity}
-                </Text>
-              </View>
-            </Pressable>
-          ))}
+        <Text style={styles.sectionTitle}>ITEM(S) ADDED</Text>
 
-          <View style={{ marginVertical: 10 }}>
-            <Text style={{ fontSize: 16, fontWeight: "600" }}>
-              Delivery Instructions
-            </Text>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              {instructions?.map((item: Instruction) => (
-                <Pressable
-                  key={item.id}
-                  onPress={() => toggleInstruction(item.id)}
-                  style={{
-                    margin: 10,
-                    borderRadius: 10,
-                    padding: 10,
-                    backgroundColor: selectedInstructions.includes(item.id)
-                      ? "pink"
-                      : "white",
-                  }}
-                >
-                  <View style={{ justifyContent: "center", alignItems: "center" }}>
-                    <FontAwesome5 name={item.iconName} size={22} color={"gray"} />
-                    <Text
-                      style={{
-                        width: 75,
-                        fontSize: 13,
-                        color: "#383838",
-                        paddingTop: 10,
-                        textAlign: "center",
-                      }}
-                    >
-                      {item.name}
-                    </Text>
-                  </View>
+        {cart?.map((item, index) => (
+          <Pressable style={styles.cartItem} key={index}>
+            <View style={styles.itemRow}>
+              <Text style={styles.itemName}>{item?.name}</Text>
+              <View style={styles.quantityControl}>
+                <Pressable onPress={() => dispatch(decrementQuantity(item))}>
+                  <Text style={styles.quantityButton}>-</Text>
                 </Pressable>
-              ))}
-            </ScrollView>
-          </View>
-
-          <View style={{ marginVertical: 10 }}>
-            <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-              Billing Details
-            </Text>
-            <View style={{ backgroundColor: "white", borderRadius: 7, padding: 10, marginTop: 14 }}>
-              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-                <Text style={{ fontSize: 15, fontWeight: "400", color: "#505050" }}>
-                  Item Total
-                </Text>
-                <Text style={{ fontSize: 15, fontWeight: "400", color: "#505050" }}>
-                  ₹{total}
-                </Text>
-              </View>
-              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginVertical: 8 }}>
-                <Text style={{ fontSize: 15, fontWeight: "400", color: "#505050" }}>
-                  Delivery Fee
-                </Text>
-                <Text style={{ fontSize: 15, fontWeight: "400", color: "#505050" }}>
-                  ₹15.00
-                </Text>
-              </View>
-              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-                <Text style={{ fontSize: 15, fontWeight: "400", color: "#505050" }}>
-                  Delivery Partner Fee
-                </Text>
-                <Text style={{ fontSize: 15, fontWeight: "400", color: "#505050" }}>
-                  ₹75
-                </Text>
-              </View>
-              <View>
-                <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginVertical: 8 }}>
-                  <Text style={{ fontWeight: "bold", fontSize: 15 }}>
-                    To pay
-                  </Text>
-                  <Text>₹{total + 90}</Text>
-                </View>
+                <Text style={styles.quantityText}>{item.quantity}</Text>
+                <Pressable onPress={() => dispatch(incrementQuantity(item))}>
+                  <Text style={styles.quantityButton}>+</Text>
+                </Pressable>
               </View>
             </View>
+            <View style={styles.itemRow}>
+              <Text style={styles.itemPrice}>₹{item.price * item.quantity}</Text>
+              <Text style={styles.itemQuantity}>Quantity: {item?.quantity}</Text>
+            </View>
+          </Pressable>
+        ))}
+
+        <Text style={styles.sectionTitle}>Delivery Instructions</Text>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.instructionsContainer}>
+          {instructions.map((item) => (
+            <Pressable
+              key={item.id}
+              onPress={() => toggleInstruction(item.id)}
+              style={[
+                styles.instruction,
+                selectedInstructions.includes(item.id) && styles.instructionSelected,
+              ]}
+            >
+              <FontAwesome5 name={item.iconName} size={22} color="white" />
+              <Text style={styles.instructionText}>{item.name}</Text>
+            </Pressable>
+          ))}
+        </ScrollView>
+
+        <Text style={styles.sectionTitle}>Billing Details</Text>
+        <View style={styles.billingContainer}>
+          <View style={styles.billingRow}>
+            <Text style={styles.billingLabel}>Item Total</Text>
+            <Text style={styles.billingValue}>₹{total}</Text>
+          </View>
+          <View style={styles.billingRow}>
+            <Text style={styles.billingLabel}>Delivery Fee</Text>
+            <Text style={styles.billingValue}>₹15.00</Text>
+          </View>
+          <View style={styles.billingRow}>
+            <Text style={styles.billingLabel}>Delivery Partner Fee</Text>
+            <Text style={styles.billingValue}>₹75.00</Text>
+          </View>
+          <View style={[styles.billingRow, styles.totalRow]}>
+            <Text style={styles.billingTotalLabel}>To Pay</Text>
+            <Text style={styles.billingTotalValue}>₹{total + 90}</Text>
           </View>
         </View>
       </ScrollView>
-      {total === 0 ? null : (
-        <Pressable style={{ flexDirection: "row", alignItems: "center", padding: 20, justifyContent: "space-between", backgroundColor: "white" }}>
+
+      {total > 0 && (
+        <View style={styles.footer}>
+          <View>
+            <Text style={styles.footerText}>Pay Using Cash</Text>
+            <Text style={styles.footerSubText}>Cash on Delivery</Text>
+          </View>
+          <Pressable
+            onPress={() => {
+              dispatch(cleanCart());
+              router.replace({
+                pathname: "/order",
+                params: { name: params?.name },
+              });
+            }}
+            style={styles.placeOrderButton}
+          >
             <View>
-                <Text style={{ fontSize: 16, fontWeight: "600" }}>
-                    Pay Using Cash
-                </Text>
-                <Text style={{ marginTop: 7, fontSize: 15 }}>
-                    Cash on Delivery
-                </Text>
+              <Text style={styles.orderAmount}>₹{total + 90}</Text>
+              <Text style={styles.orderTotal}>TOTAL</Text>
             </View>
-            <Pressable
-                onPress={() => {
-                    dispatch(cleanCart());
-                    router.replace({
-                        pathname: "/order",
-                        params: { name: params?.name },
-                    });
-                }}
-                style={{
-                    backgroundColor: "#fd5c63",
-                    padding: 10,
-                    width: 200,
-                    borderRadius: 6,
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    gap: 10,
-                }}
-            >
-                <View>
-                    <Text style={{ color: "white", fontSize: 15, fontWeight: "bold" }}>
-                        {total + 95}
-                    </Text>
-                    <Text style={{ fontSize: 15, color: "white", fontWeight: "500", marginTop: 3 }}>
-                        TOTAL
-                    </Text>
-                </View>
-                <Text style={{ fontSize: 16, fontWeight: "500", color: "white" }}>
-                    Place Order
-                </Text>
-            </Pressable>
-        </Pressable>
-    )}
+            <Text style={styles.placeOrderText}>Place Order</Text>
+          </Pressable>
+        </View>
+      )}
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: "#1e1e2e", paddingTop: 20 },
+  header: { flexDirection: "row", alignItems: "center", padding: 10 },
+  headerText: { fontSize: 20, marginLeft: 8, fontWeight: "bold", color: "white" },
+  deliveryInfo: { backgroundColor: "rgba(255, 255, 255, 0.1)", margin: 10, padding: 12, borderRadius: 10 },
+  deliveryText: { fontSize: 14, color: "#ffffffb3" },
+  deliveryHighlight: { fontWeight: "600", color: "#fd5c63" },
+  sectionTitle: { margin: 10, fontSize: 16, fontWeight: "bold", color: "white" },
+  cartItem: { backgroundColor: "rgba(255, 255, 255, 0.1)", margin: 10, padding: 12, borderRadius: 15 },
+  itemRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginVertical: 5,
+  },
+  itemName: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "white",
+  },
+  itemPrice: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#00d4ff",
+  },
+  itemQuantity: {
+    fontSize: 14,
+    color: "#ffffffb3",
+  },
+  quantityControl: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  quantityButton: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#fd5c63",
+    paddingHorizontal: 8,
+  },
+  quantityText: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "white",
+    marginHorizontal: 8,
+  },
+  instructionsContainer: {
+    flexDirection: "row",
+    margin: 10,
+  },
+  instruction: {
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    borderRadius: 15,
+    padding: 10,
+    marginHorizontal: 5,
+    alignItems: "center",
+  },
+  instructionSelected: {
+    backgroundColor: "#fd5c63",
+  },
+  instructionText: {
+    marginTop: 5,
+    fontSize: 12,
+    color: "white",
+  },
+  billingContainer: {
+    backgroundColor: "rgba(255, 255, 255, 0.05)",
+    margin: 10,
+    borderRadius: 15,
+    padding: 10,
+  },
+  billingRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginVertical: 5,
+  },
+  billingLabel: {
+    fontSize: 14,
+    color: "#ffffffb3",
+  },
+  billingValue: {
+    fontSize: 14,
+    color: "#00d4ff",
+  },
+  totalRow: {
+    borderTopWidth: 1,
+    borderTopColor: "rgba(255, 255, 255, 0.2)",
+    paddingTop: 10,
+    marginTop: 10,
+  },
+  billingTotalLabel: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "white",
+  },
+  billingTotalValue: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#fd5c63",
+  },
+  footer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "black",
+    padding: 15,
+  },
+  footerText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "white",
+  },
+  footerSubText: {
+    fontSize: 12,
+    color: "#ffffffb3",
+  },
+  placeOrderButton: {
+    backgroundColor: "#fd5c63",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: 10,
+    borderRadius: 15,
+    minWidth: 150,
+  },
+  orderAmount: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "white",
+  },
+  orderTotal: {
+    fontSize: 12,
+    color: "#ffffffb3",
+  },
+  placeOrderText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "white",
+  },
+});

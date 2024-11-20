@@ -40,11 +40,11 @@ const Hotel = () => {
           onPress={() => router.back()}
           name="arrow-back"
           size={24}
-          color="#333"
+          color="white"
           style={styles.backIcon}
         />
         <Text style={styles.headerTitle}>{params?.name || "Restaurant"}</Text>
-        <Ionicons name="bookmark-outline" size={24} color="#333" />
+        <Ionicons name="bookmark-outline" size={24} color="#fff" />
       </View>
 
         {/* Restaurant Info Section */}
@@ -132,14 +132,14 @@ export default Hotel;
 
 const styles = StyleSheet.create({
   scrollView: {
-    backgroundColor: "#F9F9F9",
+    backgroundColor: "#1e1e2e", // Updated background color
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     padding: 20,
-    backgroundColor: "#fff",
+    backgroundColor: "#1e1e2e", // Updated background color
     elevation: 5,
   },
   backIcon: {
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#333",
+    color: "#fff", // Updated text color for better contrast
   },
   iconContainer: {
     flexDirection: "row",
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   },
   restaurantInfo: {
     padding: 20,
-    backgroundColor: "#FFF",
+    backgroundColor: "#2c2c3c", // Slightly lighter background for the restaurant info section
     marginBottom: 20,
     borderRadius: 15,
     marginHorizontal: 15,
@@ -170,13 +170,13 @@ const styles = StyleSheet.create({
   restaurantName: {
     fontSize: 28,
     fontWeight: "600",
-    color: "#333",
+    color: "#fff", // Updated text color
   },
   restaurantType: {
     marginTop: 5,
     fontSize: 16,
     fontWeight: "400",
-    color: "#777",
+    color: "#fff", // Updated text color for better contrast
   },
   ratingContainer: {
     flexDirection: "row",
@@ -200,10 +200,10 @@ const styles = StyleSheet.create({
   ratingCount: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#888",
+    color: "#888", // Adjusted color to make it lighter
   },
   deliveryInfo: {
-    backgroundColor: "#E0F7F1",
+    backgroundColor: "#444", // Darker background for delivery info
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 30,
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
   deliveryText: {
     fontSize: 14,
     fontWeight: "600",
-    color: "#333",
+    color: "#fff", // Updated text color for better contrast
   },
   categoryScroll: {
     flexDirection: "row",
@@ -222,18 +222,18 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   categoryButton: {
-    backgroundColor: "#EFEFEF",
+    backgroundColor: "#3b3b3b", // Slightly darker background
     paddingVertical: 12,
     paddingHorizontal: 25,
     borderRadius: 30,
     borderWidth: 1,
-    borderColor: "#DDD",
+    borderColor: "#444", // Updated border color
     alignItems: "center",
     marginBottom: 10,
   },
   categoryText: {
     fontSize: 16,
-    color: "#333",
+    color: "#fff", // Updated text color for better contrast
     fontWeight: "500",
   },
   menuButton: {
@@ -270,7 +270,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   modalContainer: {
-    backgroundColor: "white",
+    backgroundColor: "#333", // Dark background for modal
     borderRadius: 15,
     padding: 30,
     alignItems: "center",
@@ -285,12 +285,12 @@ const styles = StyleSheet.create({
   modalItemText: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#333",
+    color: "#fff", // Adjusted text color for readability
   },
   modalItemCount: {
     fontSize: 14,
     fontWeight: "400",
-    color: "#888",
+    color: "#fff", // Adjusted color for contrast
   },
   modalLogoContainer: {
     alignItems: "center",

@@ -424,27 +424,80 @@ export default function Index() {
     };
 
     return (
-        <ScrollView style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 12, padding: 10 }}>
-                <EvilIcons name="location" size={24} color="#E52850" />
-                <View style={{ flex: 1 }}>
-                    <Text style={{ fontSize: 15, fontWeight: "500" }}>Deliver To</Text>
-                    <Text style={{ color: "grey", fontSize: 16, marginTop: 3 }}>{currentAddress}</Text>
-                </View>
-                <Pressable style={{ backgroundColor: "#6CB4EE", width: 40, height: 40, borderRadius: 20, justifyContent: "center", alignItems: "center" }}>
-                    <Text>S</Text>
-                </Pressable>
-            </View>
-            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderWidth: 1, borderColor: "#C0C0C0", paddingVertical: 8, paddingHorizontal: 10, borderRadius: 11, marginTop: 10, marginHorizontal: 10 }}>
-                <TextInput placeholder='Search for Food, Hotel' />
-                <Fontisto name="search" size={24} color="#E52B50" />
-            </View>
+        <ScrollView style={{ flex: 1, backgroundColor: "#1e1e2e" }}>
+            <View
+  style={{
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 15,
+    backgroundColor:"#041124",
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
+    borderRadius: 8,
+    marginHorizontal: 10,
+    marginTop: 10,
+  }}
+>
+  <EvilIcons name="location" size={28} color="pink" />
+  <View style={{ flex: 1 }}>
+    <Text style={{ fontSize: 16, fontWeight: "600", color: "white" }}>Deliver To</Text>
+    <Text style={{ color: "cyan", fontSize: 14, marginTop: 2 }}>{currentAddress}</Text>
+  </View>
+  <Pressable
+    style={{
+      backgroundColor: "#5C9DFF",
+      width: 42,
+      height: 42,
+      borderRadius: 21,
+      justifyContent: "center",
+      alignItems: "center",
+      shadowColor: "#5C9DFF",
+      shadowOpacity: 0.4,
+      shadowRadius: 5,
+      elevation: 4,
+    }}
+  >
+    <Text style={{ fontSize: 16, fontWeight: "bold", color: "#FFF" }}>S</Text>
+  </Pressable>
+</View>
+
+<View
+  style={{
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderWidth: 1,
+    borderColor: "#DDD",
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 10,
+    marginTop: 12,
+    marginHorizontal: 10,
+    backgroundColor: "#F9F9F9",
+    shadowColor: "#000",
+    shadowOpacity: 0.05,
+    shadowRadius: 3,
+    elevation: 2,
+  }}
+>
+  <TextInput
+    placeholder="Search for Food, Hotel"
+    placeholderTextColor="#BBB"
+    style={{ flex: 1, fontSize: 15, color: "#333" }}
+  />
+  <Fontisto name="search" size={22} color="#FF4D4D" />
+</View  >
+
             <Crousel/>
             <Categories/>
             <Recomended/>
             <Items/>
             <View style={{justifyContent:"center", alignItems:"center"}}>
-                 <Text style={{fontSize:17, letterSpacing:4, color:'grey'}}>ALL RESTURANTS</Text>
+                 <Text style={{fontSize:17, letterSpacing:4, color:'#FFD700', marginTop:15, fontWeight:"600"}}>ALL RESTURANTS</Text>
             </View>
             <View style={{marginHorizontal:8}}>
                 {hotels?.map((item,index)=>(

@@ -38,7 +38,7 @@ export default function Categories() {
 const styles = StyleSheet.create({
   container: {
     paddingVertical: 20,
-    backgroundColor: '#F9F9F9', // Light neutral background for contrast
+    backgroundColor: '#1e1e2e', // Light neutral background for contrast
   },
   button: {
     marginHorizontal: 8,
