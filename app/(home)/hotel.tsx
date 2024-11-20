@@ -7,14 +7,14 @@ import FoodItem from "@/components/FoodItem";
 import { useSelector } from "react-redux";
 import Modal from "react-native-modal";
 import menu from '../../data/menu.json';
-import { RootState } from "../../store";  // Import RootState for useSelector
+import { RootState } from "../../store";  
 
 const Hotel = () => {
   const params = useLocalSearchParams();
   const router = useRouter();
-  const cart = useSelector((state: RootState) => state.cart.cart);  // Type the state
+  const cart = useSelector((state: RootState) => state.cart.cart);  
   const [modalVisible, setModalVisible] = useState(false);
-  const scrollViewRef = useRef<ScrollView | null>(null);  // Type the ref
+  const scrollViewRef = useRef<ScrollView | null>(null);  
   const scrollAnim = useRef(new Animated.Value(0)).current;
   const ITEM_HEIGHT = 650;
 
@@ -26,41 +26,40 @@ const Hotel = () => {
         duration: 500,
         useNativeDriver: true,
       }).start(() => {
-        // Use the non-null assertion operator here
         scrollViewRef.current!.scrollTo({ y: yOffset, animated: true });
       });
     }
   };
-  
 
   return (
     <>
-      <ScrollView ref={scrollViewRef} style={{ backgroundColor: "white" }}>
-        {/* Header with Back Button and Icons */}
-        <View style={{ marginTop: 5, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-          <Ionicons onPress={() => router.back()} style={{ padding: 5 }} name="arrow-back" size={24} color="black" />
-          <View style={{ flexDirection: "row", alignItems: "center", paddingHorizontal: 14, gap: 10 }}>
-            <SimpleLineIcons name="camera" size={24} color="black" />
-            <Ionicons name="bookmark-outline" size={24} color="black" />
-            <MaterialCommunityIcons name="share-outline" size={24} color="black" />
-          </View>
-        </View>
+      <ScrollView ref={scrollViewRef} style={styles.scrollView}>
+         {/* Header */}
+      <View style={styles.header}>
+        <Ionicons
+          onPress={() => router.back()}
+          name="arrow-back"
+          size={24}
+          color="#333"
+          style={styles.backIcon}
+        />
+        <Text style={styles.headerTitle}>{params?.name || "Restaurant"}</Text>
+        <Ionicons name="bookmark-outline" size={24} color="#333" />
+      </View>
 
         {/* Restaurant Info Section */}
-        <View style={{ justifyContent: "center", alignItems: "center", marginVertical: 12 }}>
-          <Text style={{ fontSize: 20, fontWeight: "bold" }}>{params?.name}</Text>
-          <Text style={{ marginTop: 5, color: "gray", fontWeight: "500", fontSize: 15 }}>
-            {" "}North Indian • Fast Food • 160 for one
-          </Text>
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 4, marginTop: 10 }}>
-            <View style={{ flexDirection: "row", alignItems: "center", backgroundColor: "#006A4E", borderRadius: 4, paddingHorizontal: 4, paddingVertical: 5, gap: 4 }}>
-              <Text style={{ color: "white", fontSize: 14, fontWeight: "bold" }}>{params?.aggregate_rating}</Text>
+        <View style={styles.restaurantInfo}>
+          <Text style={styles.restaurantName}>{params?.name}</Text>
+          <Text style={styles.restaurantType}>North Indian • Fast Food • 160 for one</Text>
+          <View style={styles.ratingContainer}>
+            <View style={styles.rating}>
+              <Text style={styles.ratingText}>{params?.aggregate_rating}</Text>
               <Ionicons name="star" size={15} color="white" />
             </View>
-            <Text style={{ fontSize: 15, fontWeight: "500", marginLeft: 5 }}>3.2K Ratings</Text>
+            <Text style={styles.ratingCount}>3.2K Ratings</Text>
           </View>
-          <View style={{ justifyContent: "center", alignItems: "center", backgroundColor: "#D0F0C0", borderRadius: 20, paddingHorizontal: 10, paddingVertical: 5, marginTop: 12 }}>
-            <Text>30 - 40 mins • 6 km | Bangalore</Text>
+          <View style={styles.deliveryInfo}>
+            <Text style={styles.deliveryText}>30 - 40 mins • 6 km | Bangalore</Text>
           </View>
         </View>
 
@@ -70,25 +69,15 @@ const Hotel = () => {
         ))}
 
         {/* Category Scroll Buttons */}
-        <View style={{ flexDirection: "row", backgroundColor: "white" }}>
+        <View style={styles.categoryScroll}>
           {menu?.map((item) => (
-           <Pressable
-           key={item.id}
-           onPress={() => scrollToCategory(parseInt(item.id))} // Convert item.id to number
-           style={{
-             paddingHorizontal: 7,
-             borderRadius: 4,
-             paddingVertical: 5,
-             marginVertical: 10,
-             marginHorizontal: 10,
-             alignItems: "center",
-             justifyContent: "center",
-             borderColor: "#181818",
-             borderWidth: 1,
-           }}
-         >
-           <Text>{item.name}</Text>
-         </Pressable>
+            <Pressable
+              key={item.id}
+              onPress={() => scrollToCategory(parseInt(item.id))}
+              style={styles.categoryButton}
+            >
+              <Text style={styles.categoryText}>{item.name}</Text>
+            </Pressable>
           ))}
         </View>
       </ScrollView>
@@ -96,38 +85,27 @@ const Hotel = () => {
       {/* Menu Button */}
       <Pressable
         onPress={() => setModalVisible(!modalVisible)}
-        style={{
-          width: 60,
-          height: 60,
-          borderRadius: 30,
-          justifyContent: "center",
-          alignItems: "center",
-          position: "absolute",
-          right: 25,
-          bottom: cart?.length > 0 ? 90 : 35,
-          backgroundColor: "black",
-        }}
+        style={[styles.menuButton, cart?.length > 0 ? styles.cartActive : styles.cartInactive]}
       >
-        <Ionicons style={{ textAlign: "center" }} name="fast-food" size={24} color="white" />
-        <Text style={{ textAlign: "center", color: "white", fontWeight: "500", fontSize: 11, marginTop: 3 }}>
-          MENU
-        </Text>
+        <Ionicons style={styles.menuIcon} name="fast-food" size={28} color="white" />
+        <Text style={styles.menuText}>MENU</Text>
       </Pressable>
 
       {/* Modal for Menu */}
       <Modal isVisible={modalVisible} onBackdropPress={() => setModalVisible(false)}>
-        <View style={{ height: 190, width: 250, backgroundColor: "black", position: "absolute", bottom: 35, right: 10, borderRadius: 7 }}>
+        <View style={styles.modalContainer}>
           {menu?.map((item) => (
-            <View key={item.id} style={{ padding: 10, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-              <Text style={{ color: "#D0D0D0", fontWeight: "600", fontSize: 18 }}>{item.name}</Text>
-              <Text style={{ color: "#D0D0D0", fontWeight: "600", fontSize: 18 }}>{item.items?.length}</Text>
+            <View key={item.id} style={styles.modalItem}>
+              <Text style={styles.modalItemText}>{item.name}</Text>
+              <Text style={styles.modalItemCount}>{item.items?.length}</Text>
             </View>
           ))}
-          <View style={{ justifyContent: "center", alignItems: "center" }}>
-            <Image style={{ width: 120, height: 70, resizeMode: "contain" }} source={{ uri: "https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_284/Logo_f5xzza" }} />
+          <View style={styles.modalLogoContainer}>
+            <Image style={styles.modalLogo} source={{ uri: "https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_284/Logo_f5xzza" }} />
           </View>
         </View>
       </Modal>
+
       {/* Cart Floating Button */}
       {cart?.length > 0 && (
         <View style={styles.floatingButtonContainer}>
@@ -140,15 +118,9 @@ const Hotel = () => {
             }
             style={styles.floatingButton}
           >
-            <Text style={{ margin: 3, padding: 5, fontWeight: "600", color: 'black', backgroundColor: "white", borderRadius: 10 }}>
-              Click on it to see your cart
-            </Text>
-            <Text style={styles.floatingButtonText}>
-              {cart.length} items added
-            </Text>
-            <Text style={styles.floatingButtonSubText}>
-              Add items(s) worth 240 to reduce surge fee by Rs 35.
-            </Text>
+            <Text style={styles.floatingButtonTitle}>Click on it to see your cart</Text>
+            <Text style={styles.floatingButtonText}>{cart.length} items added</Text>
+            <Text style={styles.floatingButtonSubText}>Add items(s) worth 240 to reduce surge fee by Rs 35.</Text>
           </Pressable>
         </View>
       )}
@@ -157,32 +129,207 @@ const Hotel = () => {
 };
 
 export default Hotel;
+
 const styles = StyleSheet.create({
-  floatingButtonContainer: {
-    position: "absolute",
-    bottom: 0,
-    right: 0,
-    width: "100%",
+  scrollView: {
+    backgroundColor: "#F9F9F9",
   },
-  floatingButton: {
-    backgroundColor: "#fd5c63",
-    paddingHorizontal: 10,
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: 20,
+    backgroundColor: "#fff",
+    elevation: 5,
+  },
+  backIcon: {
+    padding: 5,
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
+  },
+  iconContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 20,
+  },
+  restaurantInfo: {
+    padding: 20,
+    backgroundColor: "#FFF",
+    marginBottom: 20,
+    borderRadius: 15,
+    marginHorizontal: 15,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 5,
+  },
+  restaurantName: {
+    fontSize: 28,
+    fontWeight: "600",
+    color: "#333",
+  },
+  restaurantType: {
+    marginTop: 5,
+    fontSize: 16,
+    fontWeight: "400",
+    color: "#777",
+  },
+  ratingContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 15,
+    marginTop: 10,
+  },
+  rating: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#F7B731",
+    borderRadius: 25,
+    paddingHorizontal: 15,
+    paddingVertical: 7,
+  },
+  ratingText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  ratingCount: {
+    fontSize: 14,
+    fontWeight: "500",
+    color: "#888",
+  },
+  deliveryInfo: {
+    backgroundColor: "#E0F7F1",
     paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 30,
+    marginTop: 15,
+  },
+  deliveryText: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#333",
+  },
+  categoryScroll: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    gap: 20,
+    marginTop: 20,
+  },
+  categoryButton: {
+    backgroundColor: "#EFEFEF",
+    paddingVertical: 12,
+    paddingHorizontal: 25,
+    borderRadius: 30,
+    borderWidth: 1,
+    borderColor: "#DDD",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  categoryText: {
+    fontSize: 16,
+    color: "#333",
+    fontWeight: "500",
+  },
+  menuButton: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
     justifyContent: "center",
     alignItems: "center",
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    position: "absolute",
+    right: 20,
+    bottom: 80,
+    backgroundColor: "#FF6F61",
+    shadowColor: "#FF6F61",
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 10,
+  },
+  cartActive: {
+    bottom: 140,
+  },
+  cartInactive: {
+    bottom: 30,
+  },
+  menuIcon: {
+    textAlign: "center",
+    fontSize: 30,
+    color: "white",
+  },
+  menuText: {
+    textAlign: "center",
+    color: "white",
+    fontWeight: "600",
+    fontSize: 14,
+    marginTop: 5,
+  },
+  modalContainer: {
+    backgroundColor: "white",
+    borderRadius: 15,
+    padding: 30,
+    alignItems: "center",
+    gap: 20,
+  },
+  modalItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    padding: 10,
+  },
+  modalItemText: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#333",
+  },
+  modalItemCount: {
+    fontSize: 14,
+    fontWeight: "400",
+    color: "#888",
+  },
+  modalLogoContainer: {
+    alignItems: "center",
+  },
+  modalLogo: {
+    width: 80,
+    height: 80,
+  },
+  floatingButtonContainer: {
+    position: "absolute",
+    bottom: 20,
+    left: 10,
+    right: 10,
+    padding: 15,
+    zIndex: 100,
+  },
+  floatingButton: {
+    backgroundColor: "#FF6F61",
+    paddingVertical: 15,
+    borderRadius: 30,
+    paddingHorizontal: 20,
+    alignItems: "center",
+    shadowOpacity: 0.1,
+    shadowRadius: 15,
+    shadowOffset: { width: 0, height: 10 },
+    elevation: 10,
+  },
+  floatingButtonTitle: {
+    color: "white",
+    fontWeight: "700",
+    fontSize: 18,
   },
   floatingButtonText: {
-    textAlign: "center",
     color: "white",
-    fontSize: 15,
-    fontWeight: "600",
+    fontWeight: "400",
+    fontSize: 14,
   },
   floatingButtonSubText: {
-    textAlign: "center",
     color: "white",
-    marginTop: 5,
-    fontWeight: "600",
+    fontSize: 12,
   },
 });
