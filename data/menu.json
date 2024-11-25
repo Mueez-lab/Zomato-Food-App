@@ -114,6 +114,43 @@
           "bestSeller": false
         }
       ]
-    }
+    },
+    {"id": "23",
+      "name": "Drinks",
+      "items": [
+        {
+          "id": "1",
+          "name": "fanta",
+          "price": 260,
+          "rating": 5,
+          "description": "1/2 litter",
+          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQS2Td8rV7xJn_7ihDc4cV49hxkBFCIxSJH2w&s"
+        },
+        {
+          "id": "2",
+          "name": "cola",
+          "price": 260,
+          "rating": 5,
+          "description": "1/2 litter",
+          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1CvnU5tRZSQg1t4_Ry3WTvW-eJnTrOt-SFA&s"
+        },
+        {
+          "id": "3",
+          "name": "Sprite",
+          "price": 260,
+          "rating": 5,
+          "description": "1/2 litter",
+          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMQuadCSWmcwvuZTtyBwA2FUxEqTgLQoGyOA&s"
+        },
+        {
+          "id": "4",
+          "name": "Tea",
+          "price": 260,
+          "rating": 5,
+          "description": "1/2 litter",
+          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTt1Hs8vuFcMrHtisi2mSOJ7STTFkGNPID1xw&s"
+        }
+      ]
+      }
   ]
   

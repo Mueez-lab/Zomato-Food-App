@@ -461,7 +461,7 @@ export default function Index() {
       elevation: 4,
     }}
   >
-    <Text style={{ fontSize: 16, fontWeight: "bold", color: "#FFF" }}>S</Text>
+    <Text style={{ fontSize: 16, fontWeight: "bold", color: "#FFF" }}>P</Text>
   </Pressable>
 </View>
 
@@ -493,9 +493,14 @@ export default function Index() {
 </View  >
 
             <Crousel/>
-            <Categories/>
-            <Recomended/>
-            <Items/>
+            {/* <Categories/>
+            <Recomended/> */}
+            {/* <Items/> */}
+            <View>
+              <Text style={{color:"#00d4ff", textAlign:"center", fontSize:17, paddingHorizontal:10, lineHeight:30,  shadowColor: 'aqua',shadowOffset: { width: 1, height: 1 },shadowOpacity: 0.3,shadowRadius: 4,elevation: 6,}}>
+                Feel the taste that you will never forget blended with tenderness
+              </Text>
+            </View>
             <View style={{justifyContent:"center", alignItems:"center"}}>
                  <Text style={{fontSize:17, letterSpacing:4, color:'#FFD700', marginTop:15, fontWeight:"600"}}>ALL RESTURANTS</Text>
             </View>
