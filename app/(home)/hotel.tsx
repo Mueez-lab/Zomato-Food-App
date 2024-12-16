@@ -43,7 +43,7 @@ const Hotel = () => {
           style={styles.backIcon}
         />
         <Text style={styles.headerTitle}>{params?.name || "Restaurant"}</Text>
-        <Ionicons name="bookmark-outline" size={24} color="#fff" />
+        <Text>     </Text>
       </View>
 
         {/* Restaurant Info Section */}
