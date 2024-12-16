@@ -5,6 +5,9 @@ import moment from "moment";
 import MapView, { Marker, Polyline } from "react-native-maps";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import Entypo from '@expo/vector-icons/Entypo';
 
 const order = () => {
   const params = useLocalSearchParams();
@@ -13,18 +16,19 @@ const order = () => {
   const time = moment().format("LT");
   const mapView = useRef<MapView>(null);
   const [coordinates] = useState([
-    { latitude: 12.9716, longitude: 77.5946 },
-    { latitude: 13.0451, longitude: 77.6269 },
+    { latitude: 31.4025, longitude: 74.2192 }, 
+    { latitude: 31.4811, longitude: 74.3030 }, 
   ]);
 
-  useEffect(() => {
-    if (mapView.current) {
-      mapView.current.fitToCoordinates(coordinates, {
-        edgePadding: { top: 50, bottom: 50, left: 50, right: 50 },
-      });
-    }
-  }, []);
-
+  useFocusEffect(
+    useCallback(() => {
+      if (mapView.current) {
+        mapView.current.fitToCoordinates(coordinates, {
+          edgePadding: { top: 50, bottom: 50, left: 50, right: 50 },
+        });
+      }
+    }, [coordinates])
+  );
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -42,22 +46,40 @@ const order = () => {
           <Text style={styles.deliveryText}>Delivery in 25 mins</Text>
           <Text style={styles.deliveryText}>Order placed at {time}</Text>
         </View>
-        <Text style={styles.helpText}>HELP</Text>
+        <Text style={styles.helpText}></Text>
       </View>
-      <MapView
-  ref={mapView}
-  initialRegion={{
-    latitude: 37.78825,
-    longitude: -122.4324,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-  }}
-  style={styles.map}
->
-  <Marker coordinate={coordinates[0]} />
-  <Marker coordinate={coordinates[1]} />
-  <Polyline coordinates={coordinates} strokeColor="black" lineDashPattern={[4]} strokeWidth={1} />
-</MapView>
+      {coordinates.length > 0 && (
+        <MapView
+        ref={mapView}
+        style={styles.map}
+        initialRegion={{
+          latitude: coordinates[0].latitude,
+          longitude: coordinates[0].longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
+      >
+        {/* Custom Source Marker */}
+        <Marker coordinate={coordinates[0]} title="Bahria Town">
+          <View style={styles.sourceMarker}>
+            <FontAwesome5 name="map-marker-alt" size={32} color="green" />
+          </View>
+        </Marker>
+
+        {/* Custom Destination Marker */}
+        <Marker coordinate={coordinates[1]} title="COMSATS University">
+          <View style={styles.destinationMarker}>
+          <FontAwesome5 name="map-marker-alt" size={32} color="red" />
+          </View>
+        </Marker>
+
+        {/* Route Polyline */}
+        <Polyline coordinates={coordinates} strokeColor="blue" strokeWidth={3} />
+      </MapView>
+      
+)}
+
+
 
       <View style={styles.bottomSheet}>
         <Text style={styles.orderStatus}>{params?.name} has accepted your order</Text>
@@ -218,5 +240,13 @@ const styles = StyleSheet.create({
     color: "#FF6E6E", 
     fontSize: 14, 
     fontWeight: "700" 
+  },
+  sourceMarker: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  destinationMarker: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
