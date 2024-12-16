@@ -2,7 +2,6 @@ import { StyleSheet, Text, View, ScrollView, Pressable, Animated, Image } from "
 import React, { useRef, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { SimpleLineIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import FoodItem from "@/components/FoodItem";
 import { useSelector } from "react-redux";
 import Modal from "react-native-modal";
@@ -64,21 +63,10 @@ const Hotel = () => {
         </View>
 
         {/* Render Food Items */}
+        <View style={{paddingBottom:100}}>
         {menu?.map((item) => (
           <FoodItem key={item.id} item={item} />
         ))}
-
-        {/* Category Scroll Buttons */}
-        <View style={styles.categoryScroll}>
-          {menu?.map((item) => (
-            <Pressable
-              key={item.id}
-              onPress={() => scrollToCategory(parseInt(item.id))}
-              style={styles.categoryButton}
-            >
-              <Text style={styles.categoryText}>{item.name}</Text>
-            </Pressable>
-          ))}
         </View>
       </ScrollView>
 

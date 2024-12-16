@@ -5,9 +5,6 @@ import * as LocationGeocoding from 'expo-location';
 import EvilIcons from '@expo/vector-icons/EvilIcons';
 import Fontisto from '@expo/vector-icons/Fontisto';
 import Crousel from '../../components/Crousel';
-import Categories from '@/components/Categories';
-import Recomended from '@/components/Recomended';
-import Items from '@/components/Items';
 import Hotel from '@/components/Hotel';
 
 
@@ -42,7 +39,7 @@ export default function Index() {
         {
           id: "0",
           featured_image:
-            "https://b.zmtcdn.com/data/pictures/2/18820472/b07647252aae32993047faf13a1cccf4.jpg?fit=around|771.75:416.25&crop=771.75:416.25;*,*",
+            "https://images.unsplash.com/photo-1460306855393-0410f61241c7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8YnVyZ2VyfGVufDB8fDB8fHww",
           images: [
             {
               id: "0",
@@ -57,7 +54,7 @@ export default function Index() {
               description: "Indain Burrito • Rs149",
             },
           ],
-          name: "Hauz Khas Social",
+          name: "Burger Point",
           cuisines: "North Indian • Fast Food • 160 for one",
           time: "35 - 40 min • 1Km",
           average_cost_for_two: 1600,
@@ -73,7 +70,7 @@ export default function Index() {
         {
           id: "1",
           featured_image:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4rgOs6C9rJuwL_sjJB5n7CeGKEA-Xg2yxIYq025B7_7avmruQHZ0DPpJa8GiSzPkEfas&usqp=CAU",
+            "https://images.unsplash.com/photo-1493857671505-72967e2e2760?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Y2FmZXxlbnwwfHwwfHx8MA%3D%3D",
           name: "Qubitos - The Terrace Cafe",
           cuisines: "Thai, European, Mexican",
           average_cost_for_two: 1500,
@@ -109,7 +106,7 @@ export default function Index() {
         {
           id: "3",
           featured_image:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1wuHjGnvTD4Aewe_M2-_5OSwPiPv1kUvMljF-sqoPRzvoFxD06BK2ac2jV-ZmQG6lQTg&usqp=CAU",
+            "https://images.unsplash.com/photo-1623848932096-b196440bb57b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8c2hyaW0lMjByZXN0dXJhbnR8ZW58MHx8MHx8fDA%3D",
           name: "Summer House Cafe",
           cuisines: "Italian, Continental",
           average_cost_for_two: 1850,

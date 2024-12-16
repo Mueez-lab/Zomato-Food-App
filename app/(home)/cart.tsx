@@ -5,6 +5,8 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
 import { cleanCart, decrementQuantity, incrementQuantity } from "../../redux/CartReducer";
 import { RootState } from "../../store";
+import menu from '../../data/menu.json';
+import FoodItem from "@/components/FoodItem";
 
 interface CartItem {
   id: string;
@@ -45,6 +47,7 @@ export default function Cart() {
 
   return (
     <>
+      <ScrollView>
       <ScrollView style={styles.container}>
         <View style={styles.header}>
           <Ionicons onPress={() => router.back()} name="arrow-back" size={24} color="white" />
@@ -142,6 +145,14 @@ export default function Cart() {
           </Pressable>
         </View>
       )}
+      <View style={{ backgroundColor: "#1e1e2e" }}>
+        <View style={{ paddingBottom: 100 }}>
+           {menu?.map((item) =>
+           item.name === "Fries" || item.name==="Drinks" ? <FoodItem key={item.id} item={item} /> : null
+          )}
+        </View>
+      </View>
+    </ScrollView>
     </>
   );
 }

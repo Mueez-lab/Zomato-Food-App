@@ -26,8 +26,8 @@ const FoodItem: React.FC<FoodItemProps> = ({ item }) => {
     <View>
       {data?.map((item, index) => (
         <React.Fragment key={item.id || index}>
-          <Pressable style={{ margin: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Text style={{ fontSize: 19, fontWeight: 'bold', color:"white" }}>
+          <Pressable style={{paddingVertical: 20,margin: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Text style={{ fontSize: 24,borderWidth:1, fontWeight: 'bold', color:"white", borderColor:"white", paddingVertical:5, paddingHorizontal:10, width:"100%", textAlign:"center" }}>
               {item?.name} ({item?.items?.length})
             </Text>
             <AntDesign name="down" size={20} color="black" />
