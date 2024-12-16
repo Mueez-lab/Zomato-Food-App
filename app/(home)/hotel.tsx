@@ -1,19 +1,22 @@
-import { StyleSheet, Text, View, ScrollView, Pressable, Animated, Image } from "react-native";
+import {StyleSheet,Text,View,ScrollView,Pressable,Animated,Image,} from "react-native";
 import React, { useRef, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import FoodItem from "@/components/FoodItem";
 import { useSelector } from "react-redux";
-import Modal from "react-native-modal";
-import menu from '../../data/menu.json';
-import { RootState } from "../../store";  
+import menu from "../../data/menu.json";
+import { RootState } from "../../store";
+import HotetInfo from "@/components/HotetInfo";
+import CartFloatingButton from "@/components/CartFloatingButton";
+import ModalMenu from "@/components/ModalMenu";
+import MenuButton from "@/components/MenuButton";
 
 const Hotel = () => {
   const params = useLocalSearchParams();
   const router = useRouter();
-  const cart = useSelector((state: RootState) => state.cart.cart);  
+  const cart = useSelector((state: RootState) => state.cart.cart);
   const [modalVisible, setModalVisible] = useState(false);
-  const scrollViewRef = useRef<ScrollView | null>(null);  
+  const scrollViewRef = useRef<ScrollView | null>(null);
   const scrollAnim = useRef(new Animated.Value(0)).current;
   const ITEM_HEIGHT = 650;
 
@@ -33,85 +36,23 @@ const Hotel = () => {
   return (
     <>
       <ScrollView ref={scrollViewRef} style={styles.scrollView}>
-         {/* Header */}
-      <View style={styles.header}>
-        <Ionicons
-          onPress={() => router.back()}
-          name="arrow-back"
-          size={24}
-          color="white"
-          style={styles.backIcon}
-        />
-        <Text style={styles.headerTitle}>{params?.name || "Restaurant"}</Text>
-        <Text>     </Text>
-      </View>
-
-        {/* Restaurant Info Section */}
-        <View style={styles.restaurantInfo}>
-          <Text style={styles.restaurantName}>{params?.name}</Text>
-          <Text style={styles.restaurantType}>North Indian • Fast Food • 160 for one</Text>
-          <View style={styles.ratingContainer}>
-            <View style={styles.rating}>
-              <Text style={styles.ratingText}>{params?.aggregate_rating}</Text>
-              <Ionicons name="star" size={15} color="white" />
-            </View>
-            <Text style={styles.ratingCount}>3.2K Ratings</Text>
-          </View>
-          <View style={styles.deliveryInfo}>
-            <Text style={styles.deliveryText}>30 - 40 mins • 6 km | Bangalore</Text>
-          </View>
+        {/* Header */}
+        <View style={styles.header}>
+          <Ionicons onPress={() => router.back()} name="arrow-back" size={24} color="white" style={styles.backIcon} />
+          <Text style={styles.headerTitle}>{params?.name || "Restaurant"}</Text>
+          <Text> </Text>
         </View>
-
+        
+        {/* Restaurant Info Section */}
+        <HotetInfo name={params?.name} aggregate_rating={params?.aggregate_rating}/>
         {/* Render Food Items */}
-        <View style={{paddingBottom:100}}>
-        {menu?.map((item) => (
-          <FoodItem key={item.id} item={item} />
-        ))}
+        <View style={{ paddingBottom: 100 }}>
+          {menu?.map((item) => ( <FoodItem key={item.id} item={item} />))}
         </View>
       </ScrollView>
-
-      {/* Menu Button */}
-      <Pressable
-        onPress={() => setModalVisible(!modalVisible)}
-        style={[styles.menuButton, cart?.length > 0 ? styles.cartActive : styles.cartInactive]}
-      >
-        <Ionicons style={styles.menuIcon} name="fast-food" size={28} color="white" />
-        <Text style={styles.menuText}>MENU</Text>
-      </Pressable>
-
-      {/* Modal for Menu */}
-      <Modal isVisible={modalVisible} onBackdropPress={() => setModalVisible(false)}>
-        <View style={styles.modalContainer}>
-          {menu?.map((item) => (
-            <View key={item.id} style={styles.modalItem}>
-              <Text style={styles.modalItemText}>{item.name}</Text>
-              <Text style={styles.modalItemCount}>{item.items?.length}</Text>
-            </View>
-          ))}
-          <View style={styles.modalLogoContainer}>
-            <Image style={styles.modalLogo} source={{ uri: "https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_284/Logo_f5xzza" }} />
-          </View>
-        </View>
-      </Modal>
-
-      {/* Cart Floating Button */}
-      {cart?.length > 0 && (
-        <View style={styles.floatingButtonContainer}>
-          <Pressable
-            onPress={() =>
-              router.push({
-                pathname: "/cart",
-                params: { name: params.name },
-              })
-            }
-            style={styles.floatingButton}
-          >
-            <Text style={styles.floatingButtonTitle}>Click on it to see your cart</Text>
-            <Text style={styles.floatingButtonText}>{cart.length} items added</Text>
-            <Text style={styles.floatingButtonSubText}>Add items(s) worth 240 to reduce surge fee by Rs 35.</Text>
-          </Pressable>
-        </View>
-      )}
+      <MenuButton setModalVisible={setModalVisible} cart={cart} />
+      <ModalMenu modalVisible={modalVisible} setModalVisible={setModalVisible} />
+      <CartFloatingButton cart={cart} />
     </>
   );
 };
@@ -143,65 +84,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 20,
   },
-  restaurantInfo: {
-    padding: 20,
-    backgroundColor: "#2c2c3c", // Slightly lighter background for the restaurant info section
-    marginBottom: 20,
-    borderRadius: 15,
-    marginHorizontal: 15,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    elevation: 5,
-  },
-  restaurantName: {
-    fontSize: 28,
-    fontWeight: "600",
-    color: "#fff", // Updated text color
-  },
-  restaurantType: {
-    marginTop: 5,
-    fontSize: 16,
-    fontWeight: "400",
-    color: "#fff", // Updated text color for better contrast
-  },
-  ratingContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 15,
-    marginTop: 10,
-  },
-  rating: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#F7B731",
-    borderRadius: 25,
-    paddingHorizontal: 15,
-    paddingVertical: 7,
-  },
-  ratingText: {
-    color: "white",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  ratingCount: {
-    fontSize: 14,
-    fontWeight: "500",
-    color: "#888", // Adjusted color to make it lighter
-  },
-  deliveryInfo: {
-    backgroundColor: "#444", // Darker background for delivery info
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 30,
-    marginTop: 15,
-  },
-  deliveryText: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: "#fff", // Updated text color for better contrast
-  },
+
   categoryScroll: {
     flexDirection: "row",
     flexWrap: "wrap",

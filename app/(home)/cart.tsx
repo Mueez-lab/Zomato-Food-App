@@ -7,6 +7,10 @@ import { cleanCart, decrementQuantity, incrementQuantity } from "../../redux/Car
 import { RootState } from "../../store";
 import menu from '../../data/menu.json';
 import FoodItem from "@/components/FoodItem";
+import CartItem from "@/components/CartItem"; 
+import DeliverInstructions from "@/components/DeliverInstructions";
+import BillingSummary from '@/components/BillingSummary';
+import PlaceOrder from '@/components/PlaceOrder'
 
 interface CartItem {
   id: string;
@@ -56,96 +60,29 @@ export default function Cart() {
         </View>
 
         <View style={styles.deliveryInfo}>
-          <Text style={styles.deliveryText}>
-            Delivery in <Text style={styles.deliveryHighlight}>35 - 40 mins</Text>
-          </Text>
+          <Text style={styles.deliveryText}> Delivery in <Text style={styles.deliveryHighlight}>35 - 40 mins</Text></Text>
         </View>
 
         <Text style={styles.sectionTitle}>ITEM(S) ADDED</Text>
-
+        
         {cart?.map((item, index) => (
-          <Pressable style={styles.cartItem} key={index}>
-            <View style={styles.itemRow}>
-              <Text style={styles.itemName}>{item?.name}</Text>
-              <View style={styles.quantityControl}>
-                <Pressable onPress={() => dispatch(decrementQuantity(item))}>
-                  <Text style={styles.quantityButton}>-</Text>
-                </Pressable>
-                <Text style={styles.quantityText}>{item.quantity}</Text>
-                <Pressable onPress={() => dispatch(incrementQuantity(item))}>
-                  <Text style={styles.quantityButton}>+</Text>
-                </Pressable>
-              </View>
-            </View>
-            <View style={styles.itemRow}>
-              <Text style={styles.itemPrice}>₹{item.price * item.quantity}</Text>
-              <Text style={styles.itemQuantity}>Quantity: {item?.quantity}</Text>
-            </View>
-          </Pressable>
+          <CartItem key={index} item={item} />  
         ))}
 
         <Text style={styles.sectionTitle}>Delivery Instructions</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.instructionsContainer}>
           {instructions.map((item) => (
-            <Pressable
-              key={item.id}
-              onPress={() => toggleInstruction(item.id)}
-              style={[
-                styles.instruction,
-                selectedInstructions.includes(item.id) && styles.instructionSelected,
-              ]}
-            >
-              <FontAwesome5 name={item.iconName} size={22} color="white" />
-              <Text style={styles.instructionText}>{item.name}</Text>
-            </Pressable>
+            <DeliverInstructions key={item.id} id={item.id} name={item.name} iconName={item.iconName} isSelected={selectedInstructions.includes(item.id)} toggleInstruction={toggleInstruction}/>
           ))}
         </ScrollView>
 
         <Text style={styles.sectionTitle}>Billing Details</Text>
-        <View style={styles.billingContainer}>
-          <View style={styles.billingRow}>
-            <Text style={styles.billingLabel}>Item Total</Text>
-            <Text style={styles.billingValue}>₹{total}</Text>
-          </View>
-          <View style={styles.billingRow}>
-            <Text style={styles.billingLabel}>Delivery Fee</Text>
-            <Text style={styles.billingValue}>₹15.00</Text>
-          </View>
-          <View style={styles.billingRow}>
-            <Text style={styles.billingLabel}>Delivery Partner Fee</Text>
-            <Text style={styles.billingValue}>₹75.00</Text>
-          </View>
-          <View style={[styles.billingRow, styles.totalRow]}>
-            <Text style={styles.billingTotalLabel}>To Pay</Text>
-            <Text style={styles.billingTotalValue}>₹{total + 90}</Text>
-          </View>
-        </View>
+        <BillingSummary total={total} />
+        
       </ScrollView>
 
-      {total > 0 && (
-        <View style={styles.footer}>
-          <View>
-            <Text style={styles.footerText}>Pay Using Cash</Text>
-            <Text style={styles.footerSubText}>Cash on Delivery</Text>
-          </View>
-          <Pressable
-            onPress={() => {
-              dispatch(cleanCart());
-              router.replace({
-                pathname: "/order",
-                params: { name: params?.name },
-              });
-            }}
-            style={styles.placeOrderButton}
-          >
-            <View>
-              <Text style={styles.orderAmount}>₹{total + 90}</Text>
-              <Text style={styles.orderTotal}>TOTAL</Text>
-            </View>
-            <Text style={styles.placeOrderText}>Place Order</Text>
-          </Pressable>
-        </View>
-      )}
+      <PlaceOrder total={total} name={params?.name} />
+
       <View style={{ backgroundColor: "#1e1e2e" }}>
         <View style={{ paddingBottom: 100 }}>
            {menu?.map((item) =>
@@ -159,14 +96,48 @@ export default function Cart() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#1e1e2e", paddingTop: 20 },
-  header: { flexDirection: "row", alignItems: "center", padding: 10 },
-  headerText: { fontSize: 20, marginLeft: 8, fontWeight: "bold", color: "white" },
-  deliveryInfo: { backgroundColor: "rgba(255, 255, 255, 0.1)", margin: 10, padding: 12, borderRadius: 10 },
-  deliveryText: { fontSize: 14, color: "#ffffffb3" },
-  deliveryHighlight: { fontWeight: "600", color: "#fd5c63" },
-  sectionTitle: { margin: 10, fontSize: 16, fontWeight: "bold", color: "white" },
-  cartItem: { backgroundColor: "rgba(255, 255, 255, 0.1)", margin: 10, padding: 12, borderRadius: 15 },
+  container: { 
+    flex: 1, 
+    backgroundColor: "#1e1e2e", 
+    paddingTop: 20 
+  },
+  header: { 
+    flexDirection: "row", 
+    alignItems: "center", 
+    padding: 10 
+  },
+  headerText: { 
+    fontSize: 20, 
+    marginLeft: 8, 
+    fontWeight: "bold", 
+    color: "white" 
+  },
+  deliveryInfo: { 
+    backgroundColor: "rgba(255, 255, 255, 0.1)", 
+    margin: 10, 
+    padding: 12, 
+    borderRadius: 10 
+  },
+  deliveryText: { 
+    fontSize: 14, 
+    color: "#ffffffb3" 
+  },
+  deliveryHighlight: { 
+    fontWeight: "600", 
+    color: "#fd5c63" 
+  },
+  sectionTitle: { 
+    margin: 10, 
+    fontSize: 16, 
+    fontWeight: "bold", 
+    color: "white" 
+  },
+  cartItem: { 
+    backgroundColor: "rgba(255, 255, 255, 0.1)", 
+    margin: 10, 
+    padding: 12, 
+    borderRadius: 15 
+  },
   itemRow: {
     flexDirection: "row",
     justifyContent: "space-between",
