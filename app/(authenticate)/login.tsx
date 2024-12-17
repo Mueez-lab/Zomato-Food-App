@@ -10,21 +10,21 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const router = useRouter();
 
-    // useEffect(()=>{
-    //     const checkLogin = async ()=>{
-    //         try {
-    //             const token = await AsyncStorage.getItem("authToken")
-    //             if(token)
-    //             {
-    //                 router.replace('/(home)')
-    //             }
-    //         } catch (error) {
-    //            console.log(error);
+    useEffect(()=>{
+        const checkLogin = async ()=>{
+            try {
+                const token = await AsyncStorage.getItem("authToken")
+                if(token)
+                {
+                    router.replace('/(home)')
+                }
+            } catch (error) {
+               console.log(error);
                 
-    //         }
-    //         checkLogin();
-    //     }
-    // },[])
+            }
+            checkLogin();
+        }
+    },[])
 
     async function signinWithEmail() {
         const {data,error} = await supabase.auth.signInWithPassword({
