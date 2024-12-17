@@ -1,13 +1,31 @@
-  import {StyleSheet,Text,View,SafeAreaView,KeyboardAvoidingView,TextInput,Pressable,TouchableWithoutFeedback,Keyboard,} from "react-native";
+  import {StyleSheet,Text,View,SafeAreaView,KeyboardAvoidingView,TextInput,Pressable,TouchableWithoutFeedback,Keyboard, Alert,} from "react-native";
   import React, { useState } from "react";
   import { MaterialIcons, Ionicons, AntDesign } from "@expo/vector-icons";
   import { useRouter } from "expo-router";
+import { supabase } from "@/supabase";
   
   const Register = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const router = useRouter();
+    async function signUpNewUser() {
+        const {data,error} = await supabase.auth.signUp({
+            email: email,
+            password: password,
+            options: {
+              data: {
+                name: name,
+              },
+            },
+        });
+        if(data?.user?.role== "authenticated"){
+            Alert.alert("You have been successfully singin", "Please check your email for confirmation")
+        }
+        if(error){
+            Alert.alert("Enter valid email or password" , "Please try Again")
+        }
+    }
   
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -22,7 +40,7 @@
             <View style={styles.form}>
               <Text style={styles.subtitle}>Create an Account</Text>
               <Text style={styles.description}>Sign up to get started</Text>
-  
+ 
               {/* Name Input */}
               <View style={styles.inputWrapper}>
                 <Ionicons name="person" size={24} color="#FFFFFF" style={styles.icon} />
@@ -62,7 +80,7 @@
               </View>
   
               {/* Register Button */}
-              <Pressable style={styles.registerButton}>
+              <Pressable onPress={signUpNewUser} style={styles.registerButton}>
                 <Text style={styles.registerText}>Sign Up</Text>
               </Pressable>
   

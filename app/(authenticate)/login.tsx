@@ -1,12 +1,45 @@
 import {StyleSheet, Text, View, SafeAreaView, KeyboardAvoidingView, TextInput, Pressable, TouchableWithoutFeedback, Keyboard} from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { supabase } from "@/supabase";
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const router = useRouter();
+
+    // useEffect(()=>{
+    //     const checkLogin = async ()=>{
+    //         try {
+    //             const token = await AsyncStorage.getItem("authToken")
+    //             if(token)
+    //             {
+    //                 router.replace('/(home)')
+    //             }
+    //         } catch (error) {
+    //            console.log(error);
+                
+    //         }
+    //         checkLogin();
+    //     }
+    // },[])
+
+    async function signinWithEmail() {
+        const {data,error} = await supabase.auth.signInWithPassword({
+            email:email,
+            password:password,
+        })
+        if(data)
+        {
+            // Once the user is authenticated successfully, data.session.access_token will contain the access token. ?. is the optional chaining operator, which safely checks if data and session are not null or undefined before accessing access_token
+            const token = data?.session?.access_token;
+            //The access_token (or an empty string if token is undefined) is saved in AsyncStorage under the key "authToken"
+            AsyncStorage.setItem("authToken", token ?? "");
+            router.replace('/(home)') 
+        }
+    }
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -56,7 +89,7 @@ export default function Login() {
                     </View>
 
                     {/* Login Button */}
-                    <Pressable style={styles.loginButton}>
+                    <Pressable onPress={signinWithEmail} style={styles.loginButton}>
                         <Text style={styles.loginText}>Login</Text>
                     </Pressable>
 
