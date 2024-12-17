@@ -1,12 +1,13 @@
-import { View, Text, Pressable } from 'react-native'
+import { View, Text, Pressable, TouchableOpacity } from 'react-native'
 import EvilIcons from '@expo/vector-icons/EvilIcons';
 import React from 'react'
+import { useRouter } from 'expo-router';
 
 interface LocationBarProps {
-    currentAddress: string; // Explicitly type the prop as string
-  }
-
-  const LocationBar: React.FC<LocationBarProps> = ({ currentAddress })=> {
+  currentAddress: string; // Explicitly type the prop as string
+}
+const LocationBar: React.FC<LocationBarProps> = ({ currentAddress })=> {
+    const router = useRouter();
   return (
     <View
     style={{
@@ -30,7 +31,9 @@ interface LocationBarProps {
       <Text style={{ fontSize: 16, fontWeight: "600", color: "white" }}>Deliver To</Text>
       <Text style={{ color: "cyan", fontSize: 14, marginTop: 2 }}>{currentAddress}</Text>
     </View>
+
     <Pressable
+    onPress={()=>router.push('/(authenticate)/logout')}
       style={{
         backgroundColor: "#5C9DFF",
         width: 42,
@@ -44,7 +47,7 @@ interface LocationBarProps {
         elevation: 4,
       }}
     >
-      <Text style={{ fontSize: 16, fontWeight: "bold", color: "#FFF" }}>P</Text>
+         <Text style={{ fontSize: 16, fontWeight: "bold", color: "#FFF" }}>p</Text>
     </Pressable>
   </View>
   )

@@ -27,17 +27,33 @@ export default function Login() {
     },[])
 
     async function signinWithEmail() {
-        const {data,error} = await supabase.auth.signInWithPassword({
-            email:email,
-            password:password,
-        })
-        if(data)
-        {
-            // Once the user is authenticated successfully, data.session.access_token will contain the access token. ?. is the optional chaining operator, which safely checks if data and session are not null or undefined before accessing access_token
-            const token = data?.session?.access_token;
-            //The access_token (or an empty string if token is undefined) is saved in AsyncStorage under the key "authToken"
-            AsyncStorage.setItem("authToken", token ?? "");
-            router.replace('/(home)') 
+        // Validate input fields
+        if (!email.trim() || !password.trim()) {
+            alert("Please enter both email and password.");
+            return;
+        }
+    
+        try {
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: email.trim(),
+                password: password.trim(),
+            });
+    
+            if (error) {
+                alert("Login failed. Please check your email and password.");
+                console.error("Supabase login error:", error);
+                return;
+            }
+    
+            if (data) {
+                // Save the auth token in AsyncStorage
+                const token = data?.session?.access_token;
+                await AsyncStorage.setItem("authToken", token ?? "");
+                router.replace("/(home)");
+            }
+        } catch (error) {
+            console.error("Error during login:", error);
+            alert("An unexpected error occurred. Please try again later.");
         }
     }
 
