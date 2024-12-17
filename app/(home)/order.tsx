@@ -7,7 +7,6 @@ import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import Entypo from '@expo/vector-icons/Entypo';
 
 const order = () => {
   const params = useLocalSearchParams();

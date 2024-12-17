@@ -14,7 +14,7 @@ const CartFloatingButton = ({ cart }: { cart: RootState["cart"]["cart"] }) => {
   return (
     <View style={styles.floatingButtonContainer}>
       <Pressable
-        onPress={() =>
+        onPress={() => 
           router.push({
             pathname: "/cart",
             params: { name: "Your Cart" },
