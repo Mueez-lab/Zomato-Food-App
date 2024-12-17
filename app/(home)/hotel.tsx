@@ -17,21 +17,7 @@ const Hotel = () => {
   const cart = useSelector((state: RootState) => state.cart.cart);
   const [modalVisible, setModalVisible] = useState(false);
   const scrollViewRef = useRef<ScrollView | null>(null);
-  const scrollAnim = useRef(new Animated.Value(0)).current;
-  const ITEM_HEIGHT = 650;
 
-  const scrollToCategory = (index: number) => {
-    if (scrollViewRef.current) {
-      const yOffset = index * ITEM_HEIGHT;
-      Animated.timing(scrollAnim, {
-        toValue: yOffset,
-        duration: 500,
-        useNativeDriver: true,
-      }).start(() => {
-        scrollViewRef.current!.scrollTo({ y: yOffset, animated: true });
-      });
-    }
-  };
 
   return (
     <>
