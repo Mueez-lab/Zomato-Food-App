@@ -47,7 +47,7 @@ const LocationBar: React.FC<LocationBarProps> = ({ currentAddress })=> {
         elevation: 4,
       }}
     >
-         <Text style={{ fontSize: 16, fontWeight: "bold", color: "#FFF" }}>p</Text>
+    <Text style={{ fontSize: 16, fontWeight: "bold", color: "#FFF" }}>p</Text>
     </Pressable>
   </View>
   )
