@@ -31,7 +31,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
         </View>
       </View>
       <View style={styles.itemRow}>
-        <Text style={styles.itemPrice}>₹{item.price * item.quantity}</Text>
+        <Text style={styles.itemPrice}>Rs {item.price * item.quantity}</Text>
         <Text style={styles.itemQuantity}>Quantity: {item?.quantity}</Text>
       </View>
     </Pressable>

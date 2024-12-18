@@ -11,19 +11,19 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({ total }) => {
     <View style={styles.billingContainer}>
       <View style={styles.billingRow}>
         <Text style={styles.billingLabel}>Item Total</Text>
-        <Text style={styles.billingValue}>₹{total}</Text>
+        <Text style={styles.billingValue}>Rs {total}</Text>
       </View>
       <View style={styles.billingRow}>
         <Text style={styles.billingLabel}>Delivery Fee</Text>
-        <Text style={styles.billingValue}>₹15.00</Text>
+        <Text style={styles.billingValue}>Rs 15.00</Text>
       </View>
       <View style={styles.billingRow}>
         <Text style={styles.billingLabel}>Delivery Partner Fee</Text>
-        <Text style={styles.billingValue}>₹75.00</Text>
+        <Text style={styles.billingValue}>RS 5.00</Text>
       </View>
       <View style={[styles.billingRow, styles.totalRow]}>
         <Text style={styles.billingTotalLabel}>To Pay</Text>
-        <Text style={styles.billingTotalValue}>₹{total + 90}</Text>
+        <Text style={styles.billingTotalValue}>Rs {total + 90}</Text>
       </View>
     </View>
   );

@@ -13,7 +13,7 @@ export default function Login() {
     useEffect(()=>{
         const checkLogin = async ()=>{
             try {
-                const token = await AsyncStorage.getItem("authToken")
+                c
                 if(token)
                 {
                     router.replace('/(home)')

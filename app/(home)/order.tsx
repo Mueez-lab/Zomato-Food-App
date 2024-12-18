@@ -96,7 +96,7 @@ const order = () => {
                     amount === 50 && styles.mostTippedButton,
                   ]}
                 >
-                  <Text style={styles.tipButtonText}>₹{amount}</Text>
+                  <Text style={styles.tipButtonText}>Rs.{amount}</Text>
                   {amount === 50 && <Text style={styles.mostTippedText}>Most Tipped</Text>}
                 </TouchableOpacity>
               ))}
