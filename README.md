@@ -1,50 +1,84 @@
-# Welcome to your Expo app 👋
+Zomato Food App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A React Native application for browsing and ordering food, inspired by Zomato.
+Features
 
-## Get started
+    Browse restaurants and food items
 
-1. Install dependencies
+    Search functionality
 
-   ```bash
-   npm install
-   ```
+    Order placement system
 
-2. Start the app
+    User authentication
 
-   ```bash
-    npx expo start
-   ```
+    Redux state management
 
-In the output, you'll find options to open the app in a
+    TypeScript support
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+Project Structure
+├── app/  
+├── assets/            # Static assets (images, icons)
+├── components/        # Reusable UI components
+├── data/             # Application data
+├── redux/            # Redux store and actions
+├── store.tsx         # Redux store configuration
+├── supabase.tsx      # Supabase client configuration
+├── app.json          # Expo configuration
+├── tsconfig.json     # TypeScript configuration
+├── package.json      # Project dependencies
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Technologies Used
 
-## Get a fresh project
+    React Native
 
-When you're ready, run:
+    TypeScript
 
-```bash
-npm run reset-project
-```
+    Redux
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+    Supabase (for backend services)
 
-## Learn more
+    Expo (optional, based on app.json presence)
 
-To learn more about developing your project with Expo, look at the following resources:
+Getting Started
+Prerequisites
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+    Node.js (v14 or later)
 
-## Join the community
+    npm or yarn
 
-Join our community of developers creating universal apps.
+    React Native development environment setup
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Installation
+
+    Clone the repository:
+    bash
+
+git clone https://github.com/Mueez-lab/Zomato-Food-App.git
+
+Install dependencies:
+bash
+
+npm install
+# or
+yarn install
+
+Start the development server:
+bash
+
+    npm start
+    # or
+    yarn start
+
+Configuration
+
+Create a .env file in the root directory with your Supabase credentials:
+
+SUPABASE_URL=your_supabase_url
+SUPABASE_KEY=your_supabase_key
+
+Contributing
+
+Contributions are welcome! Please fork the repository and create a pull request with your changes.
+License
+
+This project is open-source and available under the MIT License.
